@@ -1,2 +1,2 @@
-# nancy-drew
-Project to replicate the Nancy Drew games
+# Hagen Fritz's Nancy Drew
+Attempts to create low-budget versions of the Nancy Drew games
