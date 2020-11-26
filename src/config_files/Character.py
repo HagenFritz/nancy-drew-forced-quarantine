@@ -14,3 +14,10 @@ class Nancy():
             return False
         else:
             return True
+
+class Ingman():
+
+    def __init__(self):
+        self.name = "Ingman"
+
+        
