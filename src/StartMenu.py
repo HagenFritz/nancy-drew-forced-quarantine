@@ -53,6 +53,8 @@ class StartMenu(QDialog):
         # play start video
         # Create a VideoCapture object and read from input file 
         cap = cv2.VideoCapture('../videos/test.mp4') 
+        cap.set(3, 1080)
+        cap.set(4, 860)
            
         # Check if camera opened successfully 
         if (cap.isOpened()== False):  
@@ -61,11 +63,16 @@ class StartMenu(QDialog):
         # Read until video is completed 
         while(cap.isOpened()): 
               
-            # Capture frame-by-frame 
+            # Resize frame
             ret, frame = cap.read() 
+            width = int(frame.shape[1] * 2.25)
+            height = int(frame.shape[0] * 3.17)
+            dim = (width, height)
+            frame =  cv2.resize(frame, dim, interpolation =cv2.INTER_AREA)
+            # Capture frame-by-frame 
             if ret == True: 
            
-                # Display the resulting frame 
+                # Display the resulting frame
                 cv2.imshow('Frame', frame) 
            
                 # Press Q on keyboard to  exit 
@@ -82,6 +89,7 @@ class StartMenu(QDialog):
            
         # Closes all the frames 
         cv2.destroyAllWindows()
+        # creates first window
         if self.game is None:
             self.game = LivingRoom()
             self.game.show()
