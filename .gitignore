@@ -1,4 +1,4 @@
 *.ai
 *DS_Store
-*pyc
+*.pyc
 *pycache*
