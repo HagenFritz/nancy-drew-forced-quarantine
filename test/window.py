@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import * 
 import sys 
-  
+
+from Bedroom import Bedroom
   
 from random import randint
 
@@ -21,24 +22,6 @@ class Nancy():
             return False
         else:
             return True
-
-class Bedroom(QWidget):
-    """
-    This "window" is a QWidget. If it has no parent, it
-    will appear as a free-floating window as we want.
-    """
-    def __init__(self):
-        super().__init__()
-        self.setGeometry(0,0,1000,700)
-        global nancy
-        layout = QVBoxLayout()
-        self.label = QLabel(f"Another Window {randint(0,100)} for {nancy.name}")
-        layout.addWidget(self.label)
-        self.setLayout(layout)
-        self.UI()
-
-    def UI(self):
-        nancy.setItem("pillow")
 
 class Kitchen(QWidget):
     """
