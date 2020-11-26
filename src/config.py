@@ -1,3 +1,5 @@
+import sys
+sys.path.append("./config_files/")
 from Character import Nancy
 from GameTime import Time
 from GameProgress import Progress

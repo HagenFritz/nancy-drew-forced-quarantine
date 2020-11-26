@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import * 
 
+from StartMenu import StartMenu
 from LivingRoom import LivingRoom
 from Room import Room
 
@@ -14,8 +15,8 @@ if __name__ == '__main__':
     App = QApplication(sys.argv) 
       
     # create the instance of our Window 
-    game = LivingRoom() 
-    game.show()
+    menu = StartMenu()
+    menu.show()
       
     # start the app 
     sys.exit(App.exec()) 
