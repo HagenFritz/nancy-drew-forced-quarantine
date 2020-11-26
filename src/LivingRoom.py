@@ -22,6 +22,10 @@ class LivingRoom(Room):
         super().__init__("Living Room")
         self.setGeometry(self.left,self.top,self.width,self.height)
 
+        self.setRoomButtons()
+        self.setInteractionButtons()
+
+    def setRoomButtons(self)
         # Setting up buttons and other room windows
         self.by = None
         self.balconyButton = QPushButton("Balcony", self)
@@ -37,6 +41,17 @@ class LivingRoom(Room):
         self.libraryButton = QPushButton("Library", self)
         self.libraryButton.setGeometry(self.width-self.button_width,self.image_height/2-self.button_height/2,100,50)
         self.libraryButton.clicked.connect(self.toLibrary) 
+
+    def setInteractionButtons(self):
+        # Setting up buttons to interact with
+        self.ingman_window = None
+        if config.progress.met_ingman == False:
+            self.ingmanButton = QPushButton("???", self)
+        else:
+            self.ingmanButton = QPushButton("Ingman", self)
+
+        self.hallwayButton.setGeometry(self.width/2-self.button_width/2,self.image_height-self.button_height,self.button_width,self.button_height)
+        self.hallwayButton.clicked.connect(self.toIngman) 
 
     def toBalcony(self, checked):
         if self.by is None:
@@ -62,3 +77,10 @@ class LivingRoom(Room):
             self.ly.close()
             self.ly = None
 
+    def toIngman(self, checked):
+        if self.ingman_window is None:
+            self.ingman_window = Library()
+            self.ingman_window.show()
+        else:
+            self.ingman_window.close()
+            self.ingman_window = None
