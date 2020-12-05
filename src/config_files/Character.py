@@ -3,7 +3,7 @@
 class Nancy():
 
     def __init__(self):
-        self.name = "Nancy"
+        self.name = "Nancy Drew"
         self.item = None
 
     def setItem(self, item):
@@ -18,6 +18,6 @@ class Nancy():
 class Ingman():
 
     def __init__(self):
-        self.name = "Ingman"
+        self.name = "Waltz Ingman"
 
         
