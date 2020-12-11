@@ -15,11 +15,13 @@ class Bathroom(Room):
     def __init__(self):
         super().__init__("Bathroom") 
         # Calling the user interface function
+        self.setRoomButtons()
 
-        # Setting up buttons for other rooms
-        self.livingButton = QPushButton("Living Room", self)
-        self.livingButton.setGeometry(670,810,100,50)
-        self.livingButton.clicked.connect(self.toLiving)
+    def setRoomButtons(self):
+        # Setting up buttons and other room windows
+        self.hallwayButton = QPushButton("Hallway", self)
+        self.hallwayButton.setGeometry(self.width/2-self.button_width/2,self.image_height-self.button_height,self.button_width,self.button_height)
+        self.hallwayButton.clicked.connect(self.toHallway)
 
-    def toLiving(self, checked):
+    def toHallway(self, checked):
         self.close()

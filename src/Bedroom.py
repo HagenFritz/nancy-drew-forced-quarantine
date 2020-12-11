@@ -15,9 +15,9 @@ class Bedroom(Room):
     def __init__(self):
         super().__init__("Bedroom")
         # Calling the user interface function
-        self.setButtons()
+        self.setRoomButtons()
 
-    def setButtons(self):
+    def setRoomButtons(self):
         # Setting up buttons and other room windows
         self.hallwayButton = QPushButton("Hallway", self)
         self.hallwayButton.setGeometry(self.width/2-self.button_width/2,self.image_height-self.button_height,self.button_width,self.button_height)

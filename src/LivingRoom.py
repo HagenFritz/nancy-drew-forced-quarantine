@@ -146,7 +146,6 @@ class LivingRoom(Room):
             config.progress.easter_egg_count += 1
             config.progress.ufo_clicked = True
             filename = "../audio/cat_meow.wav"
-
             data, fs = sf.read(filename, dtype='float32')  
             sd.play(data, fs)
             status = sd.wait()

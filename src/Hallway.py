@@ -17,9 +17,9 @@ class Hallway(Room):
     def __init__(self):
         super().__init__("Hallway")
 
-        self.setButtons()
+        self.setRoomButtons()
 
-    def setButtons(self):
+    def setRoomButtons(self):
         # Setting up buttons and other room windows
         self.livingButton = QPushButton("Living Room", self)
         self.livingButton.setGeometry(self.width/2-self.button_width/2,self.image_height-self.button_height,self.button_width,self.button_height)
@@ -27,12 +27,12 @@ class Hallway(Room):
 
         self.br = None
         self.bedroomButton = QPushButton("Bedroom", self)
-        self.bedroomButton.setGeometry(self.width-self.button_width,self.height/2-self.button_height,100,50)
+        self.bedroomButton.setGeometry(self.width-self.button_width,self.image_height/2-self.button_height/2,self.button_width,self.button_height)
         self.bedroomButton.clicked.connect(self.toBedroom)
 
         self.bh = None
         self.bathroomButton = QPushButton("Bathroom", self)
-        self.bathroomButton.setGeometry(0,self.height/2-self.button_height/2,100,50)
+        self.bathroomButton.setGeometry(self.left,self.image_height/2-self.button_height/2,self.button_width,self.button_height)
         self.bathroomButton.clicked.connect(self.toBathroom)
 
     def toLiving(self, checked):
