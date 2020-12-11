@@ -31,7 +31,7 @@ class Library(Room):
 
         self.ki = None
         self.kitchenButton = QPushButton("Kitchen", self)
-        self.kitchenButton.setGeometry(0,self.height/2-self.button_height/2,100,50)
+        self.kitchenButton.setGeometry(self.left,self.image_height/2-self.button_height/2,self.button_width,self.button_height)
         self.kitchenButton.clicked.connect(self.toKitchen)
 
     def toLiving(self, checked):

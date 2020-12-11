@@ -4,6 +4,7 @@ class Progress():
 	def __init__(self):
 		# Medals
 		self.easter_egg_count = 0
+		self.nugget_clicks = 0
 
 		# Easter Eggs
 		self.ufo_clicked = False

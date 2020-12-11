@@ -6,6 +6,7 @@ from PyQt5.QtGui import QPainter, QColor, QPen, QIcon, QBrush, QPixmap
 from PyQt5.QtCore import Qt
 import sounddevice as sd
 import soundfile as sf
+from random import randint
 
 from Inventory import Inventory
 from Notes import Notes
@@ -112,12 +113,35 @@ class Room(QWidget):
             self.phone_window.close()
             self.phone_window = None
 
+    def toNugget(self, checked):
+        config.progress.nugget_clicks += 1
+        num = randint(0,1)
+        if num == 0:
+            filename = "../audio/cat_meow.wav"
+        else:
+            filename = "../audio/cat_meow_low.wav"
+        # Extract data and sampling rate from file
+        data, fs = sf.read(filename, dtype='float32')  
+        sd.play(data, fs)
+        status = sd.wait()  # Wait until file is done playing
+
     def toUnused(self, checked):
         filename = "../audio/hmm.wav"
         data, fs = sf.read(filename, dtype='float32')  
         sd.play(data, fs)
         status = sd.wait()
 
+    def toLocked(self, checked):
+        filename = "../audio/locked.wav"
+        data, fs = sf.read(filename, dtype='float32')  
+        sd.play(data, fs)
+        status = sd.wait()
+
+    def toNoSleep(self, checked):
+        filename = "../audio/nosleep.wav"
+        data, fs = sf.read(filename, dtype='float32')  
+        sd.play(data, fs)
+        status = sd.wait()
 
 class PaintWidget(QWidget):
     def paintEvent(self, event):

@@ -37,7 +37,7 @@ class Entry(Room):
         self.closet_window = None
         self.closetButton = QPushButton("", self)
         self.closetButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.closetButton.setGeometry(self.width-210,self.image_height-120,bw,bh)
+        self.closetButton.setGeometry(self.width-215,self.image_height-130,bw,bh)
         self.closetButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.closetButton.clicked.connect(self.toCloset)
 
@@ -45,7 +45,7 @@ class Entry(Room):
         self.thermostat_window = None
         self.thermostatButton = QPushButton("", self)
         self.thermostatButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.thermostatButton.setGeometry(self.width-265,self.image_height-310,bw,bh)
+        self.thermostatButton.setGeometry(self.width-285,480,bw,bh)
         self.thermostatButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.thermostatButton.clicked.connect(self.toThermostat)
 
@@ -53,7 +53,7 @@ class Entry(Room):
         self.laundry_window = None
         self.laundryButton = QPushButton("", self)
         self.laundryButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.laundryButton.setGeometry(self.width-350,self.image_height-305,bw,bh)
+        self.laundryButton.setGeometry(710,470,bw,bh)
         self.laundryButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.laundryButton.clicked.connect(self.toLaundry)
 
@@ -61,7 +61,7 @@ class Entry(Room):
         self.frontdoor_window = None
         self.frontDoorButton = QPushButton("", self)
         self.frontDoorButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.frontDoorButton.setGeometry(self.width/2+105,self.image_height/2-10,bw,bh)
+        self.frontDoorButton.setGeometry(self.width/2+105,self.image_height/2+15,bw,bh)
         self.frontDoorButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.frontDoorButton.clicked.connect(self.toFrontDoor)
 
@@ -69,7 +69,7 @@ class Entry(Room):
         self.light_window = None
         self.lightButton = QPushButton("", self)
         self.lightButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.lightButton.setGeometry(self.width/2-250,self.image_height/2+25,bw,bh)
+        self.lightButton.setGeometry(360,420,bw,bh)
         self.lightButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.lightButton.clicked.connect(self.toUnused)
 
@@ -77,8 +77,7 @@ class Entry(Room):
         # Setting up easter egg buttons
         # duct
         self.ductButton = QPushButton("", self)
-        self.ductButton.setGeometry(self.width/2+200,50,10,10)
-        self.ductButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        self.ductButton.setGeometry(self.width/2+220,20,10,10)
         self.ductButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.ductButton.clicked.connect(self.toDuct)
 
@@ -101,6 +100,7 @@ class Entry(Room):
             sd.play(data, fs)
             status = sd.wait()
         else:
+            # need to add something here later
             pass
 
     def toDuct(self, checked):

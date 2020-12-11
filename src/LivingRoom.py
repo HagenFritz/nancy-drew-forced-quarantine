@@ -135,17 +135,6 @@ class LivingRoom(Room):
             self.ingman_window.close()
             self.ingman_window = None
 
-    def toNugget(self, checked):
-        num = randint(0,1)
-        if num == 0:
-            filename = "../audio/cat_meow.wav"
-        else:
-            filename = "../audio/cat_meow_low.wav"
-        # Extract data and sampling rate from file
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()  # Wait until file is done playing
-
     def toBooks(self, checked):
         pass
 
