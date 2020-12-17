@@ -9,6 +9,8 @@ import sounddevice as sd
 import soundfile as sf
 
 from Room import Room
+from Closet import Closet
+from Laundry import Laundry
 import config
 
 class Entry(Room):
@@ -28,18 +30,26 @@ class Entry(Room):
         self.libraryButton.setGeometry(self.width/2-self.button_width/2,self.image_height-self.button_height,self.button_width,self.button_height)
         self.libraryButton.clicked.connect(self.toLibrary)
 
+        # closet
+        self.closet = None
+        self.closetButton = QPushButton("", self)
+        self.closetButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        self.closetButton.setGeometry(self.width-215,self.image_height-130,25,25)
+        self.closetButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.closetButton.clicked.connect(self.toCloset)
+
+        # laundry
+        self.laundry = None
+        self.laundryButton = QPushButton("", self)
+        self.laundryButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        self.laundryButton.setGeometry(710,470,25,25)
+        self.laundryButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.laundryButton.clicked.connect(self.toLaundry)
+
     def setInteractionButtons(self):
         # Setting up buttons to interact with
         bw = 25
         bh = 25
-
-        # closet
-        self.closet_window = None
-        self.closetButton = QPushButton("", self)
-        self.closetButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.closetButton.setGeometry(self.width-215,self.image_height-130,bw,bh)
-        self.closetButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.closetButton.clicked.connect(self.toCloset)
 
         # thermostat
         self.thermostat_window = None
@@ -48,14 +58,6 @@ class Entry(Room):
         self.thermostatButton.setGeometry(self.width-285,480,bw,bh)
         self.thermostatButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.thermostatButton.clicked.connect(self.toThermostat)
-
-        # laundry
-        self.laundry_window = None
-        self.laundryButton = QPushButton("", self)
-        self.laundryButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.laundryButton.setGeometry(710,470,bw,bh)
-        self.laundryButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.laundryButton.clicked.connect(self.toLaundry)
 
         # front door
         self.frontdoor_window = None
@@ -81,16 +83,26 @@ class Entry(Room):
         self.ductButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.ductButton.clicked.connect(self.toDuct)
 
+    def toLaundry(self, checked):
+        if self.laundry is None:
+            self.laundry = Laundry()
+            self.laundry.show()
+        else:
+            self.laundry.close()
+            self.laundry = None
+
+    def toCloset(self, checked):
+        if self.closet is None:
+            self.closet = Closet()
+            self.closet.show()
+        else:
+            self.closet.close()
+            self.closet = None
+
     def toLibrary(self, checked):
         self.close()
 
-    def toCloset(self, checked):
-        pass
-
     def toThermostat(self, checked):
-        pass
-
-    def toLaundry(self, checked):
         pass
 
     def toFrontDoor(self, checked):

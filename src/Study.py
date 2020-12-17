@@ -1,11 +1,15 @@
 # importing libraries 
 import sys 
+sys.path.append("./objects/")
 
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import * 
 from PyQt5.QtCore import * 
+import sounddevice as sd
+import soundfile as sf
 
 from Room import Room
+from Object import Object
 import config
 
 class Study(Room):
@@ -117,7 +121,7 @@ class Study(Room):
         if self.laptop_window is None:
             pass
             #self.laptop_window = Laptop()
-            #self.laptop_window.show()
+            self.laptop_window.show()
         else:
             self.laptop_window.close()
             self.laptop_window = None
@@ -131,10 +135,8 @@ class Study(Room):
         else:
             config.nancy.inventory.append("mug")
             if self.mug_window is None:
-                pass
-                # Need to add just a different window that has the mug 
-                #self.mug_window = Laptop()
-                #self.mug_window.show()
+                self.mug_window = Object("mug")
+                self.mug_window.show()
             else:
                 self.mug_window.close()
                 self.mug_window = None
@@ -148,10 +150,8 @@ class Study(Room):
         else:
             config.nancy.inventory.append("rpi")
             if self.rpi_window is None:
-                pass
-                # Need to add just a different window that has the mug 
-                #self.mug_window = Laptop()
-                #self.mug_window.show()
+                self.rpi_window = Object("rpi")
+                self.rpi_window.show()
             else:
                 self.rpi_window.close()
                 self.rpi_window = None
