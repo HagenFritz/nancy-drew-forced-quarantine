@@ -9,7 +9,6 @@ import sounddevice as sd
 import soundfile as sf
 
 from Room import Room
-from Object import Object
 import config
 
 class Study(Room):
@@ -41,8 +40,8 @@ class Study(Room):
         self.laptopButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.laptopButton.clicked.connect(self.toLaptop)
 
+        # Objects
         # RPi
-        self.rpi_window = None
         self.rpiButton = QPushButton("", self)
         self.rpiButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
         self.rpiButton.setGeometry(275,435,bw,bh)
@@ -50,7 +49,6 @@ class Study(Room):
         self.rpiButton.clicked.connect(self.toRPiPopup)
 
         # Coffee Mug
-        self.mug_window = None
         self.mugButton = QPushButton("", self)
         self.mugButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
         self.mugButton.setGeometry(170,460,bw,bh)
@@ -127,34 +125,10 @@ class Study(Room):
             self.laptop_window = None
 
     def toMugPopup(self, checked):
-        if "mug" in config.nancy.inventory:
-            filename = "../audio/have_that.wav"
-            data, fs = sf.read(filename, dtype='float32')  
-            sd.play(data, fs)
-            status = sd.wait()
-        else:
-            config.nancy.inventory.append("mug")
-            if self.mug_window is None:
-                self.mug_window = Object("mug")
-                self.mug_window.show()
-            else:
-                self.mug_window.close()
-                self.mug_window = None
+        self.grabObject("mug")
 
     def toRPiPopup(self, checked):
-        if "rpi" in config.nancy.inventory:
-            filename = "../audio/have_that.wav"
-            data, fs = sf.read(filename, dtype='float32')  
-            sd.play(data, fs)
-            status = sd.wait()
-        else:
-            config.nancy.inventory.append("rpi")
-            if self.rpi_window is None:
-                self.rpi_window = Object("rpi")
-                self.rpi_window.show()
-            else:
-                self.rpi_window.close()
-                self.rpi_window = None
+        self.grabObject("rpi")
 
     def toFrisbee(self, checked):
         if config.progress.frisbee_clicked == False:

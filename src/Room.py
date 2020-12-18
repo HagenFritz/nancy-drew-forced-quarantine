@@ -1,5 +1,6 @@
 import sys
 sys.path.append("./toolbar/")
+sys.path.append("./objects/")
 
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QPushButton
 from PyQt5.QtGui import QPainter, QColor, QPen, QIcon, QBrush, QPixmap
@@ -12,6 +13,7 @@ from Inventory import Inventory
 from Notes import Notes
 from Tasks import Tasks
 from Phone import Phone
+from Object import Object
 import config
 
 class Room(QWidget):
@@ -30,6 +32,9 @@ class Room(QWidget):
 
         self.button_width = 100
         self.button_height = 50
+
+        self.obj_window = None
+
         self.initUI()
 
     def initUI(self):
@@ -142,6 +147,33 @@ class Room(QWidget):
         data, fs = sf.read(filename, dtype='float32')  
         sd.play(data, fs)
         status = sd.wait()
+
+    def grabObject(self, item,):
+        if item in config.nancy.inventory:
+            filename = "../audio/have_that.wav"
+            data, fs = sf.read(filename, dtype='float32')  
+            sd.play(data, fs)
+            status = sd.wait()
+        else:
+            if self.obj_window is None:
+                config.nancy.inventory.append(item)
+                self.obj_window = Object(item)
+                self.obj_window.show()
+                filename = "../audio/got_it.wav"
+                data, fs = sf.read(filename, dtype='float32')  
+                sd.play(data, fs)
+                status = sd.wait()
+            else:
+                self.obj_window.close()
+                self.obj_window = None
+
+    def lookAtObject(self, item):
+        if self.obj_window is None:
+            self.obj_window = Object(item)
+            self.obj_window.show()
+        else:
+            self.obj_window.close()
+            self.obj_window = None
 
 class PaintWidget(QWidget):
     def paintEvent(self, event):
