@@ -18,6 +18,8 @@ class Hallway(Room):
         super().__init__("Hallway")
 
         self.setRoomButtons()
+        self.setInteractionButtons()
+        self.setEasterEggButtons()
 
     def setRoomButtons(self):
         # Setting up buttons and other room windows
@@ -34,6 +36,14 @@ class Hallway(Room):
         self.bathroomButton = QPushButton("Bathroom", self)
         self.bathroomButton.setGeometry(self.left,self.image_height/2-self.button_height/2,self.button_width,self.button_height)
         self.bathroomButton.clicked.connect(self.toBathroom)
+
+    def setInteractionButtons(self):
+        bw = 25
+        bh = 25
+
+    def setEasterEggButtons(self):
+        # Setting up easter egg buttons
+        pass
 
     def toLiving(self, checked):
         self.close()
