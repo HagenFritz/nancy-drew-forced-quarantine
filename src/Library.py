@@ -158,18 +158,23 @@ class Library(Room):
             self.ki = None
 
     def toDict(self, checked):
+        # need image
         self.grabObject("dict")
 
     def toPhotobook(self, checked):
+        # need image
         self.grabObject("photobook")
 
     def toBag(self, checked):
+        # need image
         self.grabObject("bag")
 
     def toHitchhiker(self, checked):
+        # need image
         self.lookAtObject("hitchhiker")
 
     def toGot(self, checked):
+        # need image
         self.lookAtObject("got")
 
     def toTie(self, checked):
