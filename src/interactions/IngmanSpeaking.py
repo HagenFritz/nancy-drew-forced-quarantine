@@ -17,6 +17,7 @@ class IngmanSpeaking(CharacterInteraction):
         super().__init__(config.ingman)
         self.conversation = Conversations
 
+        # Meeting Ingman
         if config.progress.data.loc["met_ingman", "complete"] == False:
             config.progress.data.loc["met_ingman", "complete"] = True
             config.progress.data.loc["apt_explored", "visible"] = True
@@ -24,13 +25,26 @@ class IngmanSpeaking(CharacterInteraction):
             self.nid = 1
             self.c = self.conversation.firstConversation(self)
             self.f(self.nid)
-        elif config.progress.data.loc["met_ingman", "complete"] == True and config.progress.rooms_visited > 9:
+        # Explored Apt
+        elif config.progress.data.loc["met_ingman", "complete"] == True and config.progress.rooms_visited >= 7 and config.progress.data.loc["apt_explored", "complete"] == False:
             config.progress.data.loc["apt_explored", "complete"] = True
             config.progress.data.loc["make_coffee", "visible"] = True
             self.f = self.speakToIngman
             self.nid = 1
             self.c = self.conversation.coffeeConversation(self)
             self.f(self.nid)
+        # Made Coffee
+        elif config.progress.data.loc["apt_explored", "complete"] == True and config.progress.made_coffee[0] == True:
+            if config.progress.made_coffee[1] == False: # bad coffee
+                self.f = self.speakToIngman
+                self.nid = 1
+                self.c = self.conversation.badCoffee(self)
+                self.f(self.nid)
+            else:
+                self.f = self.speakToIngman
+                self.nid = 1
+                self.c = self.conversation.goodCoffee(self)
+                self.f(self.nid)
         elif config.progress.message == True and config.progress.message_no == 1 and config.progress.message_read == True:
             self.f = self.speakToIngman
             self.nid = 1
@@ -48,9 +62,10 @@ class IngmanSpeaking(CharacterInteraction):
         """
         # printing out Ingman answer
         self.answer = QLabel(self.c.get_node(self.nid).data["answer"], self)
-        self.answer.move(10,625)
+        self.answer.setWordWrap(True)
+        self.answer.setGeometry(10,605,480,65)
         self.answer.show()
-        self.answer.setStyleSheet("color: white")
+        self.answer.setStyleSheet("color: white; qproperty-alignment: 'AlignLeft | AlignVCenter';")
         self.playResponse(self.c.get_node(self.nid).data["audio"])
 
         # exiting if no more choices and setting the progress forward
@@ -78,10 +93,14 @@ class IngmanSpeaking(CharacterInteraction):
                 self.thirdChoiceButton.setStyleSheet("color:white; background-color: rgba(0, 255, 255, 0);")
 
         self.firstChoiceButton.clicked.connect(self.firstChoiceAnswer)
-        self.secondChoiceButton.clicked.connect(self.secondChoiceAnswer)
+        try:
+            self.secondChoiceButton.clicked.connect(self.secondChoiceAnswer)
+        except AttributeError:
+            pass
+
         try:
             self.thirdChoiceButton.clicked.connect(self.thirdChoiceAnswer)
-        except Exception as inst:
+        except AttributeError:
             pass
 
     def firstChoiceAnswer(self, checked):
@@ -114,10 +133,14 @@ class IngmanSpeaking(CharacterInteraction):
     def destroyButtons(self):
         self.answer.hide()
         self.firstChoiceButton.hide()
-        self.secondChoiceButton.hide()
+        try: 
+            self.secondChoiceButton.hide()
+        except AttributeError as inst:
+            pass
+
         try:
             self.thirdChoiceButton.hide()
-        except Exception as inst:
+        except AttributeError as inst:
             pass
 
     def playResponse(self, filename):

@@ -2,6 +2,8 @@ import sys
 
 from treelib import Node, Tree
 
+import config
+
 class Conversations():
 
     def __init__(self):
@@ -62,34 +64,62 @@ class Conversations():
         c.create_node("Waltz Ingman",1,data={"loc":"u","answer":"ugh","audio":"cc_1"})
 
         c.create_node("What's wrong?",11,parent=1,data={"loc":"u","answer":"Just so tired...never felt so groggy","audio":"cc_11"})
-        c.create_node("I found a note.",12,parent=1,data={"loc":"d","answer":"A what?","audio":"cc_12"})
+        
         # Just so tired...never felt so groggy
         c.create_node("Can I help?",111,parent=11,data={"loc":"u","answer":"Actually yeah. I could really use a cup of coffee. Think you could make me some?","audio":"cc_111"})
-        c.create_node("I found a note.",112,parent=11,data={"loc":"d","answer":"A what?","audio":"cc_112"})
+        c.create_node("Hmm perhaps I can get you some coffee or tea?",112,parent=11,data={"loc":"d","answer":"That would be amazing! I am sure there is a mug around here somewhere.","audio":"cc_112"})
+
         # Actually yeah. I could really use a cup of coffee. Think you could make me some?
         c.create_node("Absolutely!",1111,parent=111,data={"loc":"u","answer":"Thank you so much! I promise to help once I can think properly.","audio":"cc_1111"})
         c.create_node("Yeah, I suppose.",1112,parent=111,data={"loc":"d","answer":"I know it's a lot to ask, but it's hard enough to speak right now properly.","audio":"cc_1112"})
-        # A what?
-        c.create_node("A note. You know...the thing people write to each other?",121,parent=12,data={"loc":"u","answer":"Oh, yes. Sorry, I am just so tired, I can't think straight.","audio":"cc_121"})
-        c.create_node("It doesn't matter. Are you okay?",122,parent=12,data={"loc":"d","answer":"Eh, I have been better. Do you know if there is some coffee around here?","audio":"cc_122"})
-        # Oh, yes. Sorry, I am just so tired, I can't think straight.
-        c.create_node("Hmm perhaps I can get you some coffee or tea?",1211,parent=121,data={"loc":"u","answer":"That would be amazing! I am sure there is a mug around here somewhere.","audio":"cc_1211"})
-        # A what?
-        c.create_node("A note. You know...the thing people write to each other?",1121,parent=112,data={"loc":"u","answer":"Oh, yes. Sorry, I am just so tired, I can't think straight.","audio":"cc_121"})
-        c.create_node("It doesn't matter. Are you okay?",1122,parent=112,data={"loc":"d","answer":"Eh, I have been better. Do you know if there is some coffee around here?","audio":"cc_122"})
-        # Oh, yes. Sorry, I am just so tired, I can't think straight.
-        c.create_node("Hmm perhaps I can get you some coffee or tea?",11211,parent=1121,data={"loc":"u","answer":"That would be amazing! I am sure there is a mug around here somewhere.","audio":"cc_1211"})
-        # Eh, I have been better. Do you know if there is some coffee around here?
-        c.create_node("I think I saw a mug around here. Let me ge check.",1221,parent=122,data={"loc":"u","answer":"Oh thank you so much! I owe you big time.","audio":"cc_1221"})
-        # Eh, I have been better. Do you know if there is some coffee around here?
-        c.create_node("I think I saw a mug around here. Let me ge check.",11221,parent=1122,data={"loc":"u","answer":"Oh thank you so much! I owe you big time.","audio":"cc_1221"})
+        # Thank you so much! I promise to help once I can think properly.
+        c.create_node("I think I saw a mug around here. Let me ge check.",11111,parent=1111,data={"loc":"u","answer":"Oh thank you so much! I owe you big time.","audio":"cc_11111"})
+        # I know it's a lot to ask, but it's hard enough to speak right now properly.
+        c.create_node("I think I saw a mug around here. Let me ge check.",11112,parent=1112,data={"loc":"u","answer":"Oh thank you so much! I owe you big time.","audio":"cc_11111"})
         
         return c
+
+    def badCoffee(self):
+        c = Tree()
+        # root
+        c.create_node("Waltz Ingman",1,data={"loc":"u","answer":"Hey","audio":"bc_1"})
+
+        c.create_node("Waltz Ingman",11,parent=1,data={"loc":"u","answer":"Excellent! Sorry, this is just a bad cup of coffee.","audio":"bc_1"})
+        # Excellent! Sorry, this is just a bad cup of coffee...
+        c.create_node("Oh, well let me try again.",111,parent=11,data={"loc":"u","answer":"Thanks! There should be a note around here about proper brewing","audio":"bc_11"})
+        c.create_node("Seriously? You are that picky? We are in a situation here.",112,parent=11,data={"loc":"d","answer":"I get that, but if you want my help I require certain aids.","audio":"bc_12"})
+        # I get that, but if you want my help I require certain aids.
+        c.create_node("Fine. I will try again.",1121,parent=112,data={"loc":"u","answer":"Thanks! There should be a note around here about proper brewing","audio":"bc_11"})
+        
+        # adding mug back to inventory
+        config.nancy.inventory.append("mug")
+
+    def goodCoffee(self):
+        c = Tree()
+        # root
+        c.create_node("Waltz Ingman",1,data={"loc":"u","answer":"Hey","audio":"bc_1"})
+
+        c.create_node("Waltz Ingman",11,parent=1,data={"loc":"u","answer":"Excellent! Oh, this is nice and strong. Thanks!","audio":"gc_11"})
+        # Excellent! Oh, that is nice and strong. Thanks!
+        c.create_node("You're welcome!",111,parent=11,data={"loc":"u","answer":"Alright, now what do we do about this situation?","audio":"gc_111"})
+        c.create_node("Now do you remember anything before waking up here?",112,parent=11,data={"loc":"d","answer":"I just remember working late in my office and then BAM! Woke up here. What about you?","audio":"gc_112"})
+        # Alright, now what do we do about this situation?
+        c.create_node("I looked around, but didn't find anything. I am having trouble focusing though.",1111,parent=111,data={"loc":"u","answer":"Hmm yeah you don't look so good. They must've drugged you pretty badly. Why don't you go lay down in that room behind you? I can explore a bit once I finish my coffee.","audio":"gc_1111"})
+        # Hmm yeah you don't look so good. They must've drugged you pretty badly. Why don't you go lay down in that room behind you? I can explore a bit once I finish my coffee.
+        c.create_node("That is probably smart. I will lay down for a couple of hours.",11111,parent=1111,data={"loc":"u","answer":"Good plan. Should be morning in a few hours. Just make sure you set an alarm or you might sleep all day!","audio":"gc_11111"})
+        # I just remember working late in my office and then BAM! Woke up here. What about you?
+        c.create_node("I know I ordered food and was just sitting down to eat.",1121,parent=112,data={"loc":"d","answer":"Sounds like someone might've drugged your food. Looks like it still might not be totally out of your system either. Perhaps you should get some rest in the room behind you?","audio":"gc_1121"})
+        # Sounds like someone might've drugged your food. Looks like it still might not be totally out of your system either. Perhaps you should get some rest in the room behind you?
+        c.create_node("That is probably smart. I will lay down for a couple of hours.",11211,parent=1121,data={"loc":"u","answer":"Good plan. Should be morning in a few hours. Just make sure you set an alarm or you might sleep all day!","audio":"gc_11111"})
 
     def firstMessage(self):
         c = Tree()
         # root
-        c.create_node("Waltz Ingman",1,data={"loc":"u","answer":"...","audio":"fc_1"})
+        c.create_node("Waltz Ingman",1,data={"loc":"u","answer":"Yes?","audio":"nu_1"})
+
+        c.create_node("I found a note.",11,parent=1,data={"loc":"u","answer":"A what?","audio":"fm_11"})
+        # A what?
+        c.create_node("A note. You know...the thing people write to each other?",111,parent=11,data={"loc":"u","answer":"Oh, yes. Sorry, what did it say?","audio":"fm_111"})
 
         return c
 
@@ -98,8 +128,7 @@ class Conversations():
         # root
         c.create_node("Waltz Ingman",1,data={"loc":"u","answer":"Yes?","audio":"nu_1"})
 
-        c.create_node("Bye",11,parent=1,data={"loc":"u","answer":"Seeya","audio":"nu_11"})
-        c.create_node("Nevermind",12,parent=1,data={"loc":"d","answer":"Seeya","audio":"nu_11"})
+        c.create_node("Nevermind",12,parent=1,data={"loc":"u","answer":"Seeya","audio":"nu_11"})
 
         return c
 
