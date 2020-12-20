@@ -9,7 +9,7 @@ import sounddevice as sd
 import soundfile as sf
 from random import randint
 
-from Inventory import Inventory
+import Inventory
 from Notes import Notes
 from Tasks import Tasks
 from Phone import Phone
@@ -88,7 +88,7 @@ class Room(QWidget):
 
     def toInventory(self, checked):
         if self.inventory_window is None:
-            self.inventory_window = Inventory()
+            self.inventory_window = Inventory.Inventory()
             self.inventory_window.show()
         else:
             self.inventory_window.close()
@@ -122,50 +122,34 @@ class Room(QWidget):
         config.progress.nugget_clicks += 1
         num = randint(0,1)
         if num == 0:
-            filename = "../audio/cat_meow.wav"
+            self.playAudio("cat_meow")
         else:
-            filename = "../audio/cat_meow_low.wav"
-        # Extract data and sampling rate from file
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()  # Wait until file is done playing
+            self.playAudio("cat_meow_low")
 
     def toUnused(self, checked):
-        filename = "../audio/hmm.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        self.playAudio("hmm",nancy=True)
 
     def toLocked(self, checked):
-        filename = "../audio/locked.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        self.playAudio("locked",nancy=True)
 
     def toNoSleep(self, checked):
-        filename = "../audio/nosleep.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        self.playAudio("no_sleep",nancy=True)
 
     def grabObject(self, item,):
-        if item in config.nancy.inventory:
-            filename = "../audio/have_that.wav"
-            data, fs = sf.read(filename, dtype='float32')  
-            sd.play(data, fs)
-            status = sd.wait()
-        else:
-            if self.obj_window is None:
-                config.nancy.inventory.append(item)
-                self.obj_window = Object(item)
-                self.obj_window.show()
-                filename = "../audio/got_it.wav"
-                data, fs = sf.read(filename, dtype='float32')  
-                sd.play(data, fs)
-                status = sd.wait()
+        if "bag" in config.nancy.inventory or item == "bag":
+            if item in config.nancy.inventory:
+                self.playAudio("have_that",nancy=True)
             else:
-                self.obj_window.close()
-                self.obj_window = None
+                if self.obj_window is None:
+                    config.nancy.inventory.append(item)
+                    self.obj_window = Object(item)
+                    self.obj_window.show()
+                    self.playAudio("got_it",nancy=True)
+                else:
+                    self.obj_window.close()
+                    self.obj_window = None
+        else:
+            self.playAudio("put_that",nancy=True)
 
     def lookAtObject(self, item):
         if self.obj_window is None:
@@ -174,6 +158,20 @@ class Room(QWidget):
         else:
             self.obj_window.close()
             self.obj_window = None
+
+    def playAudio(self, fname, wait=True, nancy=False):
+        """
+        Plays audio file
+        """
+        if nancy:
+            filename = f"../audio/nancy/{fname}.wav"
+        else:
+            filename = f"../audio/{fname}.wav"
+
+        data, fs = sf.read(filename, dtype='float32')  
+        sd.play(data, fs)
+        if wait:
+            status = sd.wait()
 
 class PaintWidget(QWidget):
     def paintEvent(self, event):

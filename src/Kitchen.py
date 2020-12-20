@@ -11,6 +11,8 @@ import soundfile as sf
 from Room import Room
 from Library import Library
 from Study import Study
+from Cabinet import Cabinet
+from Cutting import Cutting
 from Interaction import MessageInteraction
 import config
 
@@ -19,9 +21,7 @@ class Kitchen(Room):
     Kitchen window to pop up when player navigates to the Kitchen Location
     """
     def __init__(self):
-        if config.progress.met_ingman == False:
-            super().__init__("Kitchen")
-        elif config.progress.first_message == False:
+        if config.progress.message == True:
             super().__init__("Kitchen","message")
         else:
             super().__init__("Kitchen")
@@ -46,6 +46,22 @@ class Kitchen(Room):
         self.studyButton.setGeometry(self.left,self.image_height/2-self.button_height/2,self.button_width,self.button_height)
         self.studyButton.clicked.connect(self.toStudy)
 
+        # Coffee Cabinet
+        self.cabinet = None
+        self.cabinetButton = QPushButton("", self)
+        self.cabinetButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        self.cabinetButton.setGeometry(45,245,25,25)
+        self.cabinetButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.cabinetButton.clicked.connect(self.toCabinet) 
+
+        # Cutting Board
+        self.cutting_window = None
+        self.cuttingButton = QPushButton("", self)
+        self.cuttingButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        self.cuttingButton.setGeometry(155,385,25,25)
+        self.cuttingButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.cuttingButton.clicked.connect(self.toCutting) 
+
     def setInteractionButtons(self):
         # Setting up buttons to interact with
         bw = 25
@@ -64,6 +80,13 @@ class Kitchen(Room):
         self.blenderButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.blenderButton.clicked.connect(self.toBlender) 
 
+        # Grinder
+        self.grinderButton = QPushButton("", self)
+        self.grinderButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        self.grinderButton.setGeometry(150,355,bw,bh)
+        self.grinderButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.grinderButton.clicked.connect(self.toGrinder) 
+
         # Hidden buttons
         self.message_window = None
         self.messageButton = QPushButton("", self)
@@ -73,9 +96,7 @@ class Kitchen(Room):
         self.messageButton.clicked.connect(self.toMessage) 
         self.messageButton.hide()
 
-        if config.progress.met_ingman == True and config.progress.first_message == False:
-            # first message
-            config.progress.message_number = 1
+        if config.progress.message == True:
             self.messageButton.show()
 
     def setEasterEggButtons(self):
@@ -124,15 +145,17 @@ class Kitchen(Room):
         self.potButton.clicked.connect(self.toPot)
 
         # coffee
-        self.coffeeButton = QPushButton("", self)
-        self.coffeeButton.setGeometry(470,140,10,10)
-        self.coffeeButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.coffeeButton.clicked.connect(self.toCoffee)
+        self.babyButton = QPushButton("", self)
+        self.babyButton.setGeometry(470,140,10,10)
+        self.babyButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.babyButton.clicked.connect(self.toBaby)
 
     def toLiving(self, checked):
+        config.progress.rooms_visited += 1
         self.close()
 
     def toLibrary(self, checked):
+        config.progress.rooms_visited += 1
         if self.ly is None:
             self.ly = Library()
             self.ly.show()
@@ -141,6 +164,7 @@ class Kitchen(Room):
             self.ly = None
 
     def toStudy(self, checked):
+        config.progress.rooms_visited += 1
         if self.sy is None:
             self.sy = Study()
             self.sy.show()
@@ -148,14 +172,34 @@ class Kitchen(Room):
             self.sy.close()
             self.sy = None
 
+    def toCabinet(self, checked):
+        if self.cabinet is None:
+            self.cabinet = Cabinet()
+            self.cabinet.show()
+        else:
+            self.cabinet.close()
+            self.cabinet = None
+
+    def toCutting(self, checked):
+        if self.cutting_window is None:
+            self.cutting_window = Cutting()
+            self.cutting_window.show()
+        else:
+            self.cutting_window.close()
+            self.cutting_window = None
+
     def toBlender(self, checked):
-        filename = "../audio/blender.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        self.playAudio("blender")
+
+    def toGrinder(self, checked):
+        if "beans" in config.nancy.inventory:
+            self.playAudio("grinding")
+            config.nancy.inventory.append("grounds")
+        else:
+            self.playAudio("missing_something")
 
     def toMessage(self, checked):
-        if self.message_window is None:
+        if self.message_window is None and config.progress.message == True:
             self.message_window = MessageInteraction()
             self.message_window.show()
         else:
@@ -163,49 +207,33 @@ class Kitchen(Room):
             self.message_window = None
 
     def toGriddle(self, checked):
-        filename = "../audio/griddle.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        playAudio("griddle")
+        config.progress.pan_orchestra += 1
 
     def toFrying(self, checked):
-        filename = "../audio/frying.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        playAudio("frying")
+        config.progress.pan_orchestra += 1
 
     def toSauce(self, checked):
-        filename = "../audio/sauce.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        playAudio("sauce")
+        config.progress.pan_orchestra += 1
 
     def toPancake(self, checked):
-        filename = "../audio/pancake.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        playAudio("pancake")
+        config.progress.pan_orchestra += 1
 
     def toStock(self, checked):
-        filename = "../audio/stock.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        playAudio("stock")
+        config.progress.pan_orchestra += 1
 
     def toWok(self,checked):
-        filename = "../audio/wok.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        playAudio("wok")
+        config.progress.pan_orchestra += 1
 
     def toPot(self,checked):
-        filename = "../audio/pot.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+        playAudio("pot")
+        config.progress.pan_orchestra += 1
 
-    def toCoffee(self,checked):
-        filename = "../audio/coffee.wav"
-        data, fs = sf.read(filename, dtype='float32')  
-        sd.play(data, fs)
-        status = sd.wait()
+    def toBaby(self,checked):
+        self.playAudtio("coffee")
+        config.progress.pan_orchestra += 1

@@ -55,7 +55,7 @@ class Object(QWidget):
 
     def setToolbar(self):
         self.closeButton = QPushButton("Close", self)
-        self.closeButton.setGeometry(self.width/2,self.image_height,self.button_width,self.button_height)
+        self.closeButton.setGeometry(self.width/2-self.button_width/2,self.image_height,self.button_width,self.button_height)
         self.closeButton.clicked.connect(self.toClose)
 
     def toClose(self, checked):

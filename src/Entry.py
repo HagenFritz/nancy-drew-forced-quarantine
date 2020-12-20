@@ -106,7 +106,7 @@ class Entry(Room):
         pass
 
     def toFrontDoor(self, checked):
-        if config.progress.front_door_unlocked == False:
+        if config.progress.data.loc["front_unlocked", "complete"] == False:
             filename = "../audio/locked.wav"
             data, fs = sf.read(filename, dtype='float32')  
             sd.play(data, fs)

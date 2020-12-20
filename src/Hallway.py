@@ -46,9 +46,11 @@ class Hallway(Room):
         pass
 
     def toLiving(self, checked):
+        config.progress.rooms_visited += 1
         self.close()
 
     def toBedroom(self, checked):
+        config.progress.rooms_visited += 1
         if self.br is None:
             self.br = Bedroom()
             self.br.show()
@@ -57,6 +59,7 @@ class Hallway(Room):
             self.br = None  # Discard reference.
 
     def toBathroom(self, checked):
+        config.progress.rooms_visited += 1
         if self.bh is None:
             self.bh = Bathroom()
             self.bh.show()

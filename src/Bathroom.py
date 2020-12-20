@@ -24,4 +24,5 @@ class Bathroom(Room):
         self.hallwayButton.clicked.connect(self.toHallway)
 
     def toHallway(self, checked):
+        config.progress.rooms_visited += 1
         self.close()

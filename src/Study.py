@@ -113,7 +113,8 @@ class Study(Room):
         self.frisbeeButton.clicked.connect(self.toFrisbee)
 
     def toKitchen(self, checked):
-    	self.close()
+        config.progress.rooms_visited += 1
+        self.close()
 
     def toLaptop(self, checked):
         if self.laptop_window is None:

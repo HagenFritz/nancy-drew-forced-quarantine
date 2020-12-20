@@ -138,9 +138,11 @@ class Library(Room):
         self.yButton.clicked.connect(self.toY)
 
     def toLiving(self, checked):
+        config.progress.rooms_visited += 1
         self.close()
 
     def toEntry(self, checked):
+        config.progress.rooms_visited += 1
         if self.ey is None:
             self.ey = Entry()
             self.ey.show()
@@ -149,6 +151,7 @@ class Library(Room):
             self.ey = None
 
     def toKitchen(self, checked):
+        config.progress.rooms_visited += 1
         if self.ki is None:
             self.ki = Kitchen.Kitchen() # typical import is not working
             self.ki.show()

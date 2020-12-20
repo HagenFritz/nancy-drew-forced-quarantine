@@ -24,7 +24,7 @@ class LivingRoom(Room):
     """
 
     def __init__(self):
-        super().__init__("Living Room")
+        super().__init__("Living")
         self.setGeometry(self.left,self.top,self.width,self.height)
 
         self.setRoomButtons()
@@ -104,6 +104,7 @@ class LivingRoom(Room):
         self.ufoButton.clicked.connect(self.toUFO)
 
     def toBalcony(self, checked):
+        config.progress.rooms_visited += 1
         if self.by is None:
             self.by = Balcony()
             self.by.show()
@@ -112,6 +113,7 @@ class LivingRoom(Room):
             self.by = None
 
     def toHallway(self, checked):
+        config.progress.rooms_visited += 1
         if self.hw is None:
             self.hw = Hallway()
             self.hw.show()
@@ -120,6 +122,7 @@ class LivingRoom(Room):
             self.hw = None
 
     def toLibrary(self, checked):
+        config.progress.rooms_visited += 1
         if self.ly is None:
             self.ly = Library()
             self.ly.show()
@@ -145,10 +148,7 @@ class LivingRoom(Room):
         if config.progress.ufo_clicked == False:
             config.progress.easter_egg_count += 1
             config.progress.ufo_clicked = True
-            filename = "../audio/cat_meow.wav"
-            data, fs = sf.read(filename, dtype='float32')  
-            sd.play(data, fs)
-            status = sd.wait()
+            playAudio("cat_meow")
 
     def toLight(self, checked):
         pass
