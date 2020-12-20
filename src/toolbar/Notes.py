@@ -13,10 +13,10 @@ class Notes(QWidget):
     def __init__(self):
         super().__init__()
         self.title = "Notes"
-        self.left = 0
-        self.top = 350
-        self.width = 400
-        self.height = 500
+        self.left = 115
+        self.top = 450
+        self.width = 300
+        self.height = 400
         self.initUI()
 
     def initUI(self):
