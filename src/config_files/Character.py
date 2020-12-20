@@ -5,7 +5,7 @@ class Nancy():
     def __init__(self):
         self.name = "Nancy Drew"
         self.item = None
-        self.inventory = []
+        self.inventory = ["bag","filters","grounds","chemex",]
 
     def setItem(self, item):
         self.item = item
