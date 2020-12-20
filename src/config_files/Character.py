@@ -1,11 +1,14 @@
-
+import config
 
 class Nancy():
 
-    def __init__(self):
+    def __init__(self,inventory_from_savefile=False):
         self.name = "Nancy Drew"
         self.item = None
-        self.inventory = ["bag","filters","grounds","chemex",]
+        if inventory_from_savefile:
+            self.inventory = config.load("../data/save_files/","inventory","_test")
+        else:
+            self.inventory = ["bag","filters","grounds","chemex","mug"]
 
     def setItem(self, item):
         self.item = item
@@ -15,6 +18,13 @@ class Nancy():
             return False
         else:
             return True
+
+    def getInventory(self):
+        """
+        Returns sorted inventory
+        """
+        self.inventory.sort()
+        return self.inventory
 
 class Ingman():
 

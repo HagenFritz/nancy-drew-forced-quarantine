@@ -9,7 +9,7 @@ import sounddevice as sd
 import soundfile as sf
 from random import randint
 
-import Inventory
+from Inventory import Inventory
 from Notes import Notes
 from Tasks import Tasks
 from Phone import Phone
@@ -30,8 +30,12 @@ class Room(QWidget):
         self.height = 860
         self.image_height = 810
 
+        # room button properties
         self.button_width = 100
         self.button_height = 50
+        # interaction button properties
+        self.bw = 25
+        self.bh = 25
 
         self.obj_window = None
 
@@ -88,7 +92,7 @@ class Room(QWidget):
 
     def toInventory(self, checked):
         if self.inventory_window is None:
-            self.inventory_window = Inventory.Inventory()
+            self.inventory_window = Inventory()
             self.inventory_window.show()
         else:
             self.inventory_window.close()

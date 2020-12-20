@@ -9,9 +9,10 @@ from PyQt5.QtCore import Qt, QAbstractListModel
 import config
 
 class InventoryList(QAbstractListModel):
-    def __init__(self, *args, objects=[], **kwargs):
+    def __init__(self, *args, **kwargs):
         super(InventoryList, self).__init__(*args, **kwargs)
-        self.objects = objects
+        self.objects = config.nancy.getInventory()
+        print(self.objects)
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
@@ -34,8 +35,6 @@ class Inventory(QWidget):
         self.width = 300
         self.height = 400
 
-        self.save_dir = "../data/save_files/"
-
         self.setWindowTitle(self.title)
         self.setGeometry(self.left,self.top,self.width,self.height)
 
@@ -45,7 +44,7 @@ class Inventory(QWidget):
         self.inspectButton = QPushButton(text="Inspect")
         self.inspectButton.pressed.connect(self.inspect) 
 
-        self.model = InventoryList(objects=config.nancy.inventory.sort())
+        self.model = InventoryList()
         self.inventoryView.setModel(self.model)
 
         self.window_layout = QGridLayout()
