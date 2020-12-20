@@ -17,21 +17,32 @@ class IngmanSpeaking(CharacterInteraction):
         super().__init__(config.ingman)
         self.conversation = Conversations
 
-        if config.progress.met_ingman == False:
-            self.f = self.meetIngman
+        if config.progress.data.loc["met_ingman", "complete"] == False:
+            config.progress.data.loc["met_ingman", "complete"] = True
+            config.progress.data.loc["apt_explored", "visible"] = True
+            self.f = self.speakToIngman
             self.nid = 1
             self.c = self.conversation.firstConversation(self)
             self.f(self.nid)
+        elif config.progress.data.loc["met_ingman", "complete"] == True and config.progress.rooms_visited > 9:
+            config.progress.data.loc["apt_explored", "complete"] = True
+            config.progress.data.loc["make_coffee", "visible"] = True
+            self.f = self.speakToIngman
+            self.nid = 1
+            self.c = self.conversation.coffeeConversation(self)
+            self.f(self.nid)
+        elif config.progress.message == True and config.progress.message_no == 1 and config.progress.message_read == True:
+            self.f = self.speakToIngman
+            self.nid = 1
+            self.c = self.conversation.noUpdates(self)
+            self.f(self.nid)
         else:
-            self.noUpdates()
+            self.f = self.speakToIngman
+            self.nid = 1
+            self.c = self.conversation.noUpdates(self)
+            self.f(self.nid)
 
-    def noUpdates(self):
-        '''
-        Function to be called if the player hasn't progressed enough to speak further with Ingman
-        '''
-        pass
-
-    def meetIngman(self, node_id_number):
+    def speakToIngman(self, node_id_number):
         """
         Audio code "fc"
         """
@@ -44,7 +55,6 @@ class IngmanSpeaking(CharacterInteraction):
 
         # exiting if no more choices and setting the progress forward
         if self.c.children(self.nid) == []:
-            config.progress.met_ingman = True
             self.close()
             
         # printing out your possible responses

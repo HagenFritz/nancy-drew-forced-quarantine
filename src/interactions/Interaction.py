@@ -3,6 +3,7 @@ from PyQt5.QtGui import QPainter, QColor, QPen, QIcon, QBrush, QPixmap
 from PyQt5.QtCore import Qt
 
 import Character
+from Object import Object
 import config
 
 class Interaction(QWidget):
@@ -60,24 +61,16 @@ class CharacterInteraction(QWidget):
         self.m.move(0,0)
         self.m.resize(self.width,self.height)
 
-class MessageInteraction(QWidget):
+class MessageInteraction(Object):
 
     def __init__(self):
-        super().__init__()
-        self.title = "Message"
-        self.number = config.progress.message_no
+        super().__init__(f"message{config.progress.message_no}")
+        self.setBackgroundImage()
 
-        self.left = 0
-        self.top = 0
-        self.width = 612
-        self.height = 792
-
-        self.initUI()
-
-    def initUI(self):
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left,self.top,self.width,self.height)
-        config.progress.first_message = True
+    def setBackgroundImage(self):
+        label = QLabel(self)
+        pixmap = QPixmap(f"../images/objects/{self.title}.png")
+        label.setPixmap(pixmap)
 
 class PaintWidget(QWidget):
     def paintEvent(self, event):
