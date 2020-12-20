@@ -51,22 +51,13 @@ class Cutting(Room):
         self.kitchenButton.clicked.connect(self.toKitchen)
 
     def setInteractionButtons(self):
+        # might not need this
         bw = 25
         bh = 25
 
-        # Frother
-        self.frotherButton = QPushButton("", self)
-        self.frotherButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.frotherButton.setGeometry(735,545,bw,bh)
-        self.frotherButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.frotherButton.clicked.connect(self.toUnused)
-
     def setEasterEggButtons(self):
-        # Mixed
-        self.mixerButton = QPushButton("", self)
-        self.mixerButton.setGeometry(458,765,10,10)
-        self.mixerButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.mixerButton.clicked.connect(self.toMixer)
+        # might not need this
+        pass
 
     def toKitchen(self, checked):
         try:
@@ -95,7 +86,7 @@ class Cutting(Room):
 
         txt_w = 100
         txt_h = 30
-        self.playAudio("need_measurements",wait=False)
+        self.playAudio("need_measurements",wait=False,nancy=True)
 
         # grounds
         # -------
@@ -128,18 +119,17 @@ class Cutting(Room):
         # Chemex
         # ------
         # Labels
-        self.groundsLabel = QLabel(f"Grounds Added: {self.amt_grounds}.0 Tbsp",self)
-        self.groundsLabel.setAlignment(Qt.AlignLeft)
-        self.groundsLabel.setStyleSheet("background-color: white;")
-        self.groundsLabel.setGeometry(695,500,150,15)
+        self.groundsLabel = QLabel(f"Grounds Added: {self.amt_grounds} Tbsp",self)
+        self.groundsLabel.setStyleSheet("background-color: white; qproperty-alignment: 'AlignLeft | AlignVCenter';")
+        self.groundsLabel.setGeometry(690,475,165,20)
 
-        self.waterLabel = QLabel(f"Water Added: {self.amt_water}.0 fl oz",self)
-        self.waterLabel.setAlignment(Qt.AlignLeft)
-        self.waterLabel.setStyleSheet("background-color: white;")
-        self.waterLabel.setGeometry(710,500,150,15)
+        self.waterLabel = QLabel(f"Water Added: {self.amt_water} fl oz",self)
+        self.waterLabel.setStyleSheet("background-color: white; qproperty-alignment: 'AlignLeft | AlignVCenter';")
+        self.waterLabel.setGeometry(690,500,165,20)
         # Button
         self.brewButton = QPushButton("Brew",self)
         self.brewButton.setGeometry(740,525,75,txt_h)
+        self.brewButton.clicked.connect(self.brewCoffee)
 
     def setUnits(self, x, y, height, label):
         """
@@ -154,8 +144,12 @@ class Cutting(Room):
         Adds grounds to coffee
         """
         try:
+            self.playAudio("grounds_in",wait=False)
             value = float(self.groundsInput.text())
             self.amt_grounds += value
+            if self.amt_grounds >= 100:
+                self.amt_grounds -= value
+                self.playAudio("cant_do",nancy=True)
         except ValueError:
             playAudio("doesnt_work",nancy=True)
 
@@ -166,6 +160,9 @@ class Cutting(Room):
         try:
             value = float(self.waterInput.text())
             self.amt_water += value
+            if self.amt_water >= 100:
+                self.amt_water -= value
+                self.playAudio("cant_do",nancy=True)
         except ValueError:
             playAudio("doesnt_work",nancy=True)
 
@@ -175,15 +172,22 @@ class Cutting(Room):
         """
         # checking to see if coffee has already been brewed
         if config.progress.made_coffee[0] == False:
-            config.progress.made_coffee[0] = True # has been brewed
-            if self.amt_grounds == 2 and self.amt_water == 8:
+            if self.amt_grounds == 0 and self.amt_water == 0: # nothing added
+                self.playAudio("cant_do",nancy=True)
+                return
+            elif self.amt_grounds == 2 and self.amt_water == 8:
                 config.progress.made_coffee[1] = True # has been brewed correctly
             else:
                 config.progress.made_coffee[1] = False # has been brewed INcorrectly
 
+            config.progress.made_coffee[0] = True # has been brewed
+            self.playAudio("brewing")
             self.playAudio("done",nancy=True)
+            config.nancy.inventory.remove("mug")
+            self.close()
         else:
             self.playAudio("done_that",nancy=True)
+            self.close()
 
 
     def updateMeasurements(self):
