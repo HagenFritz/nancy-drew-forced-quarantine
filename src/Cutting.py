@@ -14,7 +14,7 @@ class Cutting(Room):
     """
     def __init__(self):
         self.make_coffee = False
-        if config.progress.data.loc["apt_explored","complete"] == True and config.progress.data.loc["make_coffee","complete"] == False:
+        if config.progress.data.loc["apt_explored","complete"] == True and config.progress.isCoffeeMade() == False:
             background_list = []
             for obj in config.nancy.inventory:
                 if obj in ["chemex","filters","grounds","mug"]:
@@ -33,7 +33,7 @@ class Cutting(Room):
                     self.make_coffee = True
                 super().__init__("Cutting",background_str)
             else:
-                super().__init__("Cutting","Water") 
+                super().__init__("Cutting","water") 
         else:
             super().__init__("Cutting","Board") 
 
@@ -171,22 +171,23 @@ class Cutting(Room):
         Brews coffee based on grounds and water added
         """
         # checking to see if coffee has already been brewed
-        if config.progress.made_coffee[0] == False:
+        if config.progress.isCoffeeMade() == False:
             if self.amt_grounds == 0 and self.amt_water == 0: # nothing added
                 self.playAudio("cant_do",nancy=True)
                 return
-            elif self.amt_grounds == 2 and self.amt_water == 8:
-                config.progress.made_coffee[1] = True # has been brewed correctly
+            elif (self.amt_grounds >= 1 and self.amt_grounds <= 1.2) and (self.amt_water >= 8.6 and self.amt_water <= 8.8):
+                # See Github wiki for discussion
+                config.progress.coffeeIsGood(True) 
             else:
-                config.progress.made_coffee[1] = False # has been brewed INcorrectly
+                config.progress.coffeeIsGood(False)
 
-            config.progress.made_coffee[0] = True # has been brewed
+            config.progress.coffeeIsMade(True)
             self.playAudio("brewing")
             self.playAudio("done",nancy=True)
             config.nancy.inventory.remove("mug")
             self.close()
         else:
-            self.playAudio("done_that",nancy=True)
+            self.playAudio("cant_do",nancy=True)
             self.close()
 
 

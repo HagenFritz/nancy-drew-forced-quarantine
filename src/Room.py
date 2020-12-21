@@ -14,6 +14,7 @@ from Notes import Notes
 from Tasks import Tasks
 from Phone import Phone
 from Object import Object
+from Page import Page
 import config
 
 class Room(QWidget):
@@ -38,6 +39,7 @@ class Room(QWidget):
         self.bh = 25
 
         self.obj_window = None
+        self.page_window = None
 
         self.initUI()
 
@@ -154,6 +156,14 @@ class Room(QWidget):
                     self.obj_window = None
         else:
             self.playAudio("put_that",nancy=True)
+
+    def readPage(self, page_name):
+        if self.page_window is None:
+            self.page_window = Page(page_name,1)
+            self.page_window.show()
+        else:
+            self.page_window.close()
+            self.page_window = None
 
     def lookAtObject(self, item):
         if self.obj_window is None:

@@ -31,4 +31,29 @@ class Progress():
         # Story counters
         self.message_no = 1
         self.rooms_visited = 0
-        
+
+    # Coffee Methods
+    # --------------
+    def isCoffeeMade(self):
+        """
+        returns whether or not the coffee is made
+        """
+        return self.made_coffee[0]
+
+    def isCoffeeGood(self):
+        """
+        returns whether or not the coffee is good
+        """
+        return self.made_coffee[1]
+
+    def coffeeIsMade(self, flag):
+        """
+        Coffee is made set to flag
+        """
+        self.made_coffee[0] = flag
+
+    def coffeeIsGood(self, flag):
+        """
+        Coffe is good set to flag
+        """
+        self.made_coffee[1] = flag

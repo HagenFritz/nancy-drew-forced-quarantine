@@ -16,45 +16,45 @@ class IngmanSpeaking(CharacterInteraction):
     def __init__(self):
         super().__init__(config.ingman)
         self.conversation = Conversations
+        self.f = self.speakToIngman
+        self.nid = 1
 
         # Meeting Ingman
         if config.progress.data.loc["met_ingman", "complete"] == False:
+            # setting current progress step to True and unlocking next task
             config.progress.data.loc["met_ingman", "complete"] = True
             config.progress.data.loc["apt_explored", "visible"] = True
-            self.f = self.speakToIngman
-            self.nid = 1
+
             self.c = self.conversation.firstConversation(self)
-            self.f(self.nid)
         # Explored Apt
         elif config.progress.data.loc["met_ingman", "complete"] == True and config.progress.rooms_visited >= 7 and config.progress.data.loc["apt_explored", "complete"] == False:
             config.progress.data.loc["apt_explored", "complete"] = True
             config.progress.data.loc["make_coffee", "visible"] = True
-            self.f = self.speakToIngman
-            self.nid = 1
+
             self.c = self.conversation.coffeeConversation(self)
-            self.f(self.nid)
         # Made Coffee
-        elif config.progress.data.loc["apt_explored", "complete"] == True and config.progress.made_coffee[0] == True:
-            if config.progress.made_coffee[1] == False: # bad coffee
-                self.f = self.speakToIngman
-                self.nid = 1
+        elif config.progress.data.loc["apt_explored", "complete"] == True and config.progress.isCoffeeMade() and config.progress.data.loc["make_coffee","complete"] == False:
+            if config.progress.isCoffeeGood() == False:
                 self.c = self.conversation.badCoffee(self)
-                self.f(self.nid)
+                # changing coffee made flag to false 
+                config.progress.coffeeIsMade(False)
+                # adding mug back to inventory
+                config.nancy.inventory.append("mug")
             else:
-                self.f = self.speakToIngman
-                self.nid = 1
+                # setting current progress step to True and unlocking next task
+                config.progress.data.loc["make_coffee","complete"] = True
+                config.progress.data.loc["first_sleep","visible"] = True
+                # resetting coffee made flags for future use
+                config.progress.coffeeIsMade(False)
+                config.progress.coffeeIsGood(False)
+
                 self.c = self.conversation.goodCoffee(self)
-                self.f(self.nid)
         elif config.progress.message == True and config.progress.message_no == 1 and config.progress.message_read == True:
-            self.f = self.speakToIngman
-            self.nid = 1
             self.c = self.conversation.noUpdates(self)
-            self.f(self.nid)
         else:
-            self.f = self.speakToIngman
-            self.nid = 1
             self.c = self.conversation.noUpdates(self)
-            self.f(self.nid)
+
+        self.f(self.nid)
 
     def speakToIngman(self, node_id_number):
         """

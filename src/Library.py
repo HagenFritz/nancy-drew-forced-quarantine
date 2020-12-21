@@ -161,8 +161,7 @@ class Library(Room):
             self.ki = None
 
     def toDict(self, checked):
-        # need image
-        self.grabObject("dict")
+        self.readPage("coffee_brewing")
 
     def toPhotobook(self, checked):
         # need image
