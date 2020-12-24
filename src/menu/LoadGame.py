@@ -8,6 +8,7 @@ from PyQt5.QtCore import *
 
 from Room import Room
 from LivingRoom import LivingRoom
+import config
 
 class LoadGame(StartMenu):
 
@@ -30,15 +31,15 @@ class LoadGame(StartMenu):
         self.game_title.setStyleSheet("color: gold; background-color: black; qproperty-alignment: 'AlignHCenter | AlignVCenter'; border-width: 2px; border-color: black; font: bold 44px;") 
         self.game_title.setGeometry(50,90,380,50)      
        
-        self.startButton = QPushButton('Saved Game 1', self)
+        self.startButton = QPushButton('Choose File', self)
         self.startButton.setGeometry(50,170,380,100)
         self.startButton.setStyleSheet("color: black; background-color: white; border-width: 2px; border-color: black; font: bold 32px;")
         self.startButton.clicked.connect(self.toReloadGame)
 
-        self.loadButton = QPushButton('Saved Game 2', self)
-        self.loadButton.setGeometry(50,280,380,100)
-        self.loadButton.setStyleSheet("color: black; background-color: white; border-width: 2px; border-color: black; font: bold 32px;")
-        self.loadButton.clicked.connect(self.toReloadGame)
+        #self.loadButton = QPushButton('Saved Game 2', self)
+        #self.loadButton.setGeometry(50,280,380,100)
+        #self.loadButton.setStyleSheet("color: black; background-color: white; border-width: 2px; border-color: black; font: bold 32px;")
+        #self.loadButton.clicked.connect(self.toReloadGame)
 
         self.leaderButton = QPushButton('Back to Menu', self)
         self.leaderButton.setGeometry(50,390,380,100)
@@ -51,7 +52,18 @@ class LoadGame(StartMenu):
         self.exitButton.clicked.connect(self.toExit)
 
     def toReloadGame(self, checked):
-        # Need to load in the files
+        fname = self.openFileNameDialog()
+        try:
+            saved_data = json.load(fname)
+            # loading data into correct files
+            config.progress.data = pd.DataFrame.from_dict(saved_data["progress"])
+            config.progress.notes = saved_data["notes"]
+            config.nancy.inventory = saved_data["inventory"]
+
+            print(saved_data)
+        except Exception as inst:
+            print(inst)
+
         if self.game is None:
             self.game = LivingRoom()
             self.game.show()
@@ -59,6 +71,12 @@ class LoadGame(StartMenu):
         else:
             self.game.close()
             self.game = None
+
+    def openFileNameDialog(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+        fname, _ = QFileDialog.getOpenFileName(self,"Choose File", "../data/save_files","JSON Files (*.json)")
+        return fname
 
     def toMenu(self, checked):
         if self.menu is None:
