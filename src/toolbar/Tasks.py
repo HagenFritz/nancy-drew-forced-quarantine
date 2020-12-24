@@ -1,10 +1,10 @@
 import sys
-
 import json
+
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QListView, QLineEdit
 from PyQt5.QtGui import QPainter, QColor, QPen, QIcon, QBrush, QPixmap, QImage
-from PyQt5.QtCore import Qt, QAbstractListModel
+from PyQt5.QtCore import *
 
 import config
 
@@ -75,18 +75,6 @@ class Tasks(QWidget):
             self.model.dataChanged.emit(index, index)
             # Clear user selection
             self.taskView.clearSelection()
-            self.save()
-
-    def load(self):
-        try:
-            with open(f"{self.save_dir}{config.save_file}-tasks.json", "r") as f:
-                self.model.tasks = json.load(f)
-        except Exception:
-            pass
-
-    def save(self):
-        with open(f"{self.save_dir}{config.save_file}-tasks.json", "w") as f:
-            data = json.dump(self.model.tasks, f)
 
 
 

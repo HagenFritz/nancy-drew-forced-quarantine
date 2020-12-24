@@ -4,7 +4,7 @@ import json
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QGridLayout, QListView, QLineEdit
 from PyQt5.QtGui import QPainter, QColor, QPen, QIcon, QBrush, QPixmap, QImage
-from PyQt5.QtCore import Qt, QAbstractListModel
+from PyQt5.QtCore import *
 
 import config
 
