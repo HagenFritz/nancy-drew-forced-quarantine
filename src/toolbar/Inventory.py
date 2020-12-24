@@ -12,7 +12,6 @@ class InventoryList(QAbstractListModel):
     def __init__(self, *args, **kwargs):
         super(InventoryList, self).__init__(*args, **kwargs)
         self.objects = config.nancy.getInventory()
-        print(self.objects)
 
     def data(self, index, role):
         if role == Qt.DisplayRole:

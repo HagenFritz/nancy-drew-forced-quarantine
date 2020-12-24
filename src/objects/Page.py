@@ -18,7 +18,7 @@ class Page(QWidget):
     """
     General Page window class
     """
-    def __init__(self,page_name, page_number):
+    def __init__(self, page_name, page_number):
         super().__init__()
         self.name = page_name
         self.no = page_number

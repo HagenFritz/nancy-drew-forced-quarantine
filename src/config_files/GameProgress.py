@@ -66,7 +66,7 @@ class Progress():
 
     def coffeeIsGood(self, flag):
         """
-        Coffe is good set to flag
+        Coffee is good set to flag
         """
         self.made_coffee[1] = flag
 
@@ -83,3 +83,8 @@ class Progress():
             self.fe.close()
             self.fe = None
 
+    def getNotes(self):
+        """
+        Returns the list of messages
+        """
+        return self.notes

@@ -42,7 +42,7 @@ class Entry(Room):
         self.laundry = None
         self.laundryButton = QPushButton("", self)
         self.laundryButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.laundryButton.setGeometry(710,470,25,25)
+        self.laundryButton.setGeometry(710,472,25,25)
         self.laundryButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.laundryButton.clicked.connect(self.toLaundry)
 
@@ -63,7 +63,7 @@ class Entry(Room):
         self.frontdoor_window = None
         self.frontDoorButton = QPushButton("", self)
         self.frontDoorButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.frontDoorButton.setGeometry(self.width/2+105,self.image_height/2+15,bw,bh)
+        self.frontDoorButton.setGeometry(self.width/2+110,self.image_height/2+20,bw,bh)
         self.frontDoorButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.frontDoorButton.clicked.connect(self.toFrontDoor)
 
@@ -71,7 +71,7 @@ class Entry(Room):
         self.light_window = None
         self.lightButton = QPushButton("", self)
         self.lightButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.lightButton.setGeometry(360,420,bw,bh)
+        self.lightButton.setGeometry(365,415,bw,bh)
         self.lightButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.lightButton.clicked.connect(self.toLightsOff)
 
@@ -107,7 +107,7 @@ class Entry(Room):
 
     def toFrontDoor(self, checked):
         if config.progress.data.loc["front_unlocked", "complete"] == False:
-            self.playAudio("locked")
+            self.playAudio("locked",nancy=True)
         else:
             # need to add something here later
             pass

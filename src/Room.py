@@ -201,7 +201,7 @@ class Room(QWidget):
                 self.black_window.close()
                 self.black_window = None
         else:
-            self.playAudio("hmm")
+            self.playAudio("hmm",nancy=True)
 
     def grabObject(self, item,):
         if "bag" in config.nancy.inventory or item == "bag":

@@ -8,9 +8,8 @@ import config
 
 class NotesList(QAbstractListModel):
     def __init__(self, *args, **kwargs):
-        super(InventoryList, self).__init__(*args, **kwargs)
+        super(NotesList, self).__init__(*args, **kwargs)
         self.notes = config.progress.getNotes()
-        print(self.objects)
 
     def data(self, index, role):
         if role == Qt.DisplayRole:
@@ -31,10 +30,18 @@ class Notes(QWidget):
         self.top = 450
         self.width = 300
         self.height = 400
-        self.initUI()
 
-    def initUI(self):
         self.setWindowTitle(self.title)
         self.setGeometry(self.left,self.top,self.width,self.height)
 
-        
+        self.notesView = QListView()
+        self.closeButton = QPushButton("Close")
+        self.closeButton.pressed.connect(self.close)
+
+        self.model = NotesList()
+        self.notesView.setModel(self.model)
+
+        self.window_layout = QGridLayout()
+        self.window_layout.addWidget(self.notesView,0,0,3,5)
+        self.window_layout.addWidget(self.closeButton,4,1,1,3)
+        self.setLayout(self.window_layout)

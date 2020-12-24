@@ -102,6 +102,14 @@ class Library(Room):
         self.botButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.botButton.clicked.connect(self.toLocked)
 
+        # Lights
+        # Switch
+        self.lightButton = QPushButton("", self)
+        self.lightButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        self.lightButton.setGeometry(3,505,self.bw,self.bh)
+        self.lightButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.lightButton.clicked.connect(self.toLightsOff)
+
         # Unused
         # House
         self.houseButton = QPushButton("", self)
@@ -177,7 +185,7 @@ class Library(Room):
 
     def toGot(self, checked):
         # need image
-        self.lookAtObject("got")
+        self.readPage("pinout")
 
     def toTie(self, checked):
         if config.progress.tie_clicked == False:

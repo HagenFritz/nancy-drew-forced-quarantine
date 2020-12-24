@@ -11,6 +11,7 @@ from PyQt5.QtCore import *
 
 from Room import Room
 from LivingRoom import LivingRoom
+import config
 
 class StartMenu(QDialog):
 
@@ -74,6 +75,8 @@ class StartMenu(QDialog):
         else:
             self.game.close()
             self.game = None
+
+        self.close()
 
     def toOldGame(self, checked):
         # play start video
@@ -176,11 +179,6 @@ class LoadGame(StartMenu):
         self.startButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
         self.startButton.clicked.connect(self.toReloadGame)
 
-        #self.loadButton = QPushButton('Saved Game 2', self)
-        #self.loadButton.setGeometry((self.width - self.button_width)/2,280,self.button_width,self.button_height)
-        #self.loadButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
-        #self.loadButton.clicked.connect(self.toReloadGame)
-
         self.leaderButton = QPushButton('Back to Menu', self)
         self.leaderButton.setGeometry((self.width - self.button_width)/2,390,self.button_width,self.button_height)
         self.leaderButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
@@ -189,10 +187,20 @@ class LoadGame(StartMenu):
     def toReloadGame(self, checked):
         fname = self.openFileNameDialog()
         try:
-            saved_data = json.load(fname)
-            print(saved_data)
+            with open(fname, "r") as f:
+                saved_data = json.load(f)
+                print("File loaded succesfully!")
         except Exception as inst:
-            print(inst)
+            print(f"Problem loading save file - {inst}")
+            sys.exit(1)
+
+        try:
+            config.progress.data = pd.DataFrame.from_dict(saved_data["progress"])
+            config.progress.notes = saved_data["notes"]
+            config.nancy.inventory = saved_data["inventory"]
+        except Exception as inst:
+            print(f"Problem loading in data - {inst}")
+            sys.exit(1)
 
         if self.game is None:
             self.game = LivingRoom()
@@ -201,6 +209,8 @@ class LoadGame(StartMenu):
         else:
             self.game.close()
             self.game = None
+
+        self.close()
 
     def openFileNameDialog(self):
         options = QFileDialog.Options()

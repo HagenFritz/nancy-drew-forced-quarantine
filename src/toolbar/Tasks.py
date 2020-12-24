@@ -2,8 +2,8 @@ import sys
 import json
 
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QPushButton, QTableWidget, QTableWidgetItem, QVBoxLayout, QListView, QLineEdit
-from PyQt5.QtGui import QPainter, QColor, QPen, QIcon, QBrush, QPixmap, QImage
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
 import config

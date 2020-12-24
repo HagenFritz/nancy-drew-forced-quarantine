@@ -18,7 +18,7 @@ from IngmanSpeaking import IngmanSpeaking
 
 class LivingRoom(Room):
     """
-
+    Central Room
     """
 
     def __init__(self):
@@ -77,7 +77,7 @@ class LivingRoom(Room):
         self.controllersButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
         self.controllersButton.setGeometry(590,560,bw,bh)
         self.controllersButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.controllersButton.clicked.connect(self.toControllers)
+        self.controllersButton.clicked.connect(self.toUnused)
 
         # Lamp
         self.lampButton = QPushButton("", self)
@@ -89,7 +89,7 @@ class LivingRoom(Room):
         # Light Switch
         self.lightButton = QPushButton("", self)
         self.lightButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.lightButton.setGeometry(745,340,bw,bh)
+        self.lightButton.setGeometry(747,315,bw,bh)
         self.lightButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.lightButton.clicked.connect(self.toLightsOff)
 
@@ -138,10 +138,15 @@ class LivingRoom(Room):
             self.ingman_window = None
 
     def toBooks(self, checked):
-        pass
-
-    def toControllers(self, checked):
-        pass
+        """
+        Books by Ingman on coffee table
+        """
+        if config.game_time.isDay():
+            # Can't pick this up when Ingman is awake
+            self.playAudio("cant_do", nancy=True)
+        else:
+            # Can put the hex info here
+            self.playAudio("hmm", nancy=True)
 
     def toUFO(self, checked):
         if config.progress.ufo_clicked == False:

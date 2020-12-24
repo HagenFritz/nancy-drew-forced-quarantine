@@ -46,4 +46,4 @@ class Closet(Room):
         self.close()
 
     def toUmbrella(self, checked):
-        self.playAudio("cant_do")
+        self.playAudio("cant_do",nancy=True)

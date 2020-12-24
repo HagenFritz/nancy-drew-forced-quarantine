@@ -2,13 +2,10 @@ import config
 
 class Nancy():
 
-    def __init__(self,inventory_from_savefile=False):
+    def __init__(self):
         self.name = "Nancy Drew"
         self.item = None
-        if inventory_from_savefile:
-            self.inventory = config.load("../data/save_files/","inventory","_test")
-        else:
-            self.inventory = ["bag","filters","grounds","chemex","mug"]
+        self.inventory = []
 
     def setItem(self, item):
         self.item = item

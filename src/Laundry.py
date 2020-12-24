@@ -62,7 +62,9 @@ class Laundry(Room):
         self.close()
 
     def toSetting(self, checked):
-        self.playAudio("cant_do")
+        self.playAudio("cant_do",nancy=True)
 
     def toStart(self, checked):
-        self.playAudio("cant_do")
+        self.playAudio("cant_do",nancy=True)
+
+        

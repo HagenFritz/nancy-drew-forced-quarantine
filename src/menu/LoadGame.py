@@ -36,11 +36,6 @@ class LoadGame(StartMenu):
         self.startButton.setStyleSheet("color: black; background-color: white; border-width: 2px; border-color: black; font: bold 32px;")
         self.startButton.clicked.connect(self.toReloadGame)
 
-        #self.loadButton = QPushButton('Saved Game 2', self)
-        #self.loadButton.setGeometry(50,280,380,100)
-        #self.loadButton.setStyleSheet("color: black; background-color: white; border-width: 2px; border-color: black; font: bold 32px;")
-        #self.loadButton.clicked.connect(self.toReloadGame)
-
         self.leaderButton = QPushButton('Back to Menu', self)
         self.leaderButton.setGeometry(50,390,380,100)
         self.leaderButton.setStyleSheet("color: black; background-color: white; border-width: 2px; border-color: black; font: bold 32px;")
@@ -53,16 +48,17 @@ class LoadGame(StartMenu):
 
     def toReloadGame(self, checked):
         fname = self.openFileNameDialog()
-        try:
-            saved_data = json.load(fname)
-            # loading data into correct files
-            config.progress.data = pd.DataFrame.from_dict(saved_data["progress"])
-            config.progress.notes = saved_data["notes"]
-            config.nancy.inventory = saved_data["inventory"]
+        print("here")
+        #try:
+        saved_data = json.load(fname)
+        # loading data into correct files
+        config.progress.data = pd.DataFrame.from_dict(saved_data["progress"])
+        config.progress.notes = saved_data["notes"]
+        config.nancy.inventory = saved_data["inventory"]
 
-            print(saved_data)
-        except Exception as inst:
-            print(inst)
+        print(saved_data)
+        #except Exception as inst:
+        #    print(inst)
 
         if self.game is None:
             self.game = LivingRoom()
