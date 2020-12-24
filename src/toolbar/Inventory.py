@@ -39,9 +39,9 @@ class Inventory(QWidget):
         self.setGeometry(self.left,self.top,self.width,self.height)
 
         self.inventoryView = QListView()
-        self.useButton = QPushButton(text="Use")
+        self.useButton = QPushButton("Use")
         self.useButton.pressed.connect(self.use)
-        self.inspectButton = QPushButton(text="Inspect")
+        self.inspectButton = QPushButton("Inspect")
         self.inspectButton.pressed.connect(self.inspect) 
 
         self.model = InventoryList()

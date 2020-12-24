@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QPushBut
 from PyQt5.QtGui import QPainter, QColor, QPen, QIcon, QBrush, QPixmap, QImage
 from PyQt5.QtCore import Qt, QAbstractListModel
 
+import Room
 import config
 
 class ContactList(QAbstractListModel):
@@ -44,6 +45,8 @@ class Phone(QWidget):
         self.contactView = QListView()
         self.callButton = QPushButton(text="Call")
         self.callButton.pressed.connect(self.call)
+        self.lockButton = QPushButton(text="Lock")
+        self.lockButton.pressed.connect(self.lock)
 
         self.model = ContactList(contacts=["Ned","Mom","Dad"])
         self.contactView.setModel(self.model)
@@ -52,11 +55,21 @@ class Phone(QWidget):
         self.window_layout.addWidget(self.service)
         self.window_layout.addWidget(self.contactView)
         self.window_layout.addWidget(self.callButton)
+        self.window_layout.addWidget(self.lockButton)
         self.setLayout(self.window_layout)
 
     def call(self):
         """
         """
-        pass
+        if config.progress.service_status == "None":
+            room = Room.Room("")
+            room.playAudio(fname="cant_do",nancy=True)
+        else:
+            pass # phone call
       
         self.show()
+
+    def lock(self):
+        """"
+        """
+        self.close()
