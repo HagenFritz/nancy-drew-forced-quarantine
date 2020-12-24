@@ -73,7 +73,7 @@ class Entry(Room):
         self.lightButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
         self.lightButton.setGeometry(360,420,bw,bh)
         self.lightButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.lightButton.clicked.connect(self.toUnused)
+        self.lightButton.clicked.connect(self.toLightsOff)
 
     def setEasterEggButtons(self):
         # Setting up easter egg buttons

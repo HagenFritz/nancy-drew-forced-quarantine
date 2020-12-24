@@ -1,10 +1,12 @@
 import sys
+sys.path.append("../")
 import cv2 
 import numpy as np 
+import pandas as pd
 
-from PyQt5.QtWidgets import QMainWindow, QApplication, QWidget, QPushButton, QHBoxLayout, QGroupBox, QDialog, QVBoxLayout, QGridLayout
-from PyQt5.QtGui import QIcon, QPalette, QColor
-from PyQt5.QtCore import pyqtSlot, QCoreApplication
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 
 from Room import Room
 from LivingRoom import LivingRoom
@@ -16,40 +18,63 @@ class StartMenu(QDialog):
         self.title = 'Menu'
         self.left = 0
         self.top = 0
-        self.width = 1080
-        self.height = 860
+        self.width = 480
+        self.height = 650
+
         self.game  = None
+        self.menu = None
+        self.load_game = None 
+        self.leader_board_window = None
+
+        self.f_size = 28
+        self.button_width = 340
+        self.button_height = 80
+
+        self.setBackground()
+        self.setButtons()
         self.initUI()
         
-    def initUI(self):
-        self.setWindowTitle(self.title)
-        self.setGeometry(self.left, self.top, self.width, self.height)
-        
-        self.createGridLayout()
-    
-    def createGridLayout(self):
+    def initUI(self):  
 
-        layout = QVBoxLayout()
-        
-        self.startButton = QPushButton('Start New Game')
-        self.startButton.clicked.connect(self.toGame)
-        layout.addWidget(self.startButton)
+        self.nancy_title = QLabel("Nancy Drew", self)
+        self.nancy_title.setStyleSheet("color: gold; background-color: black; qproperty-alignment: 'AlignHCenter | AlignVCenter'; border-width: 2px; border-color: black; font: bold 28px;")
+        self.nancy_title.setGeometry(50,50,380,50)
+        self.game_title = QLabel("Forced Quarantine", self)
+        self.game_title.setStyleSheet("color: gold; background-color: black; qproperty-alignment: 'AlignHCenter | AlignVCenter'; border-width: 2px; border-color: black; font: bold 44px;") 
+        self.game_title.setGeometry(50,90,380,50)   
 
-        self.loadButton = QPushButton('Load Game')
-        self.loadButton.clicked.connect(self.toLoad)
-        layout.addWidget(self.loadButton)
-
-        self.leaderButton = QPushButton('Leaderboard')
-        self.leaderButton.clicked.connect(self.toLeader)
-        layout.addWidget(self.leaderButton)
-
-        self.exitButton = QPushButton('Exit')
+        self.exitButton = QPushButton('Exit', self)
+        self.exitButton.setGeometry((self.width - self.button_width)/2,500,self.button_width,self.button_height)
+        self.exitButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
         self.exitButton.clicked.connect(self.toExit)
-        layout.addWidget(self.exitButton)
 
-        self.setLayout(layout)
+    def setButtons(self):
+       
+        self.startButton = QPushButton('Start New Game', self)
+        self.startButton.setGeometry((self.width - self.button_width)/2,170,self.button_width,self.button_height)
+        self.startButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
+        self.startButton.clicked.connect(self.toGame)
+
+        self.loadButton = QPushButton('Load Game', self)
+        self.loadButton.setGeometry((self.width - self.button_width)/2,280,self.button_width,self.button_height)
+        self.loadButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
+        self.loadButton.clicked.connect(self.toLoad)
+
+        self.leaderButton = QPushButton('Leaderboard', self)
+        self.leaderButton.setGeometry((self.width - self.button_width)/2,390,self.button_width,self.button_height)
+        self.leaderButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
+        self.leaderButton.clicked.connect(self.toLeader)
 
     def toGame(self, checked):
+        if self.game is None:
+            self.game = LivingRoom()
+            self.game.show()
+            self.close()
+        else:
+            self.game.close()
+            self.game = None
+
+    def toOldGame(self, checked):
         # play start video
         # Create a VideoCapture object and read from input file 
         cap = cv2.VideoCapture('../videos/test.mp4') 
@@ -99,10 +124,107 @@ class StartMenu(QDialog):
             self.game = None
 
     def toLoad(self, checked):
-        pass
+        if self.load_game is None:
+            self.load_game = LoadGame()
+            self.load_game.show()
+            self.close
+        else:
+            self.load_game.close()
+            self.load_game = None
 
     def toLeader(self, checked):
-        pass
+        if self.leader_board_window is None:
+            self.leader_board_window = Leaderboard()
+            self.leader_board_window.show()
+            self.close
+        else:
+            self.leader_board_window.close()
+            self.leader_board_window = None
+
+    def toMenu(self, checked):
+        if self.menu is None:
+            self.menu = StartMenu()
+            self.menu.show()
+            self.close()
+        else:
+            self.menu.close()
+            self.menu = None
 
     def toExit(self, checked):
         QCoreApplication.exit(0)
+
+    def setBackground(self):
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.top, self.width, self.height)
+
+        # Add paint widget and paint
+        self.m = PaintWidget(self)
+        self.m.move(0,0)
+        self.m.resize(self.width,self.height)
+
+class LoadGame(StartMenu):
+
+    def __init__(self):
+        super().__init__()
+        self.title = 'Load Game'
+
+    def setButtons(self):
+       
+        self.startButton = QPushButton('Saved Game 1', self)
+        self.startButton.setGeometry((self.width - self.button_width)/2,170,self.button_width,self.button_height)
+        self.startButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
+        self.startButton.clicked.connect(self.toReloadGame)
+
+        self.loadButton = QPushButton('Saved Game 2', self)
+        self.loadButton.setGeometry((self.width - self.button_width)/2,280,self.button_width,self.button_height)
+        self.loadButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
+        self.loadButton.clicked.connect(self.toReloadGame)
+
+        self.leaderButton = QPushButton('Back to Menu', self)
+        self.leaderButton.setGeometry((self.width - self.button_width)/2,390,self.button_width,self.button_height)
+        self.leaderButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
+        self.leaderButton.clicked.connect(self.toMenu)
+
+    def toReloadGame(self, checked):
+        # Need to load in the files
+        if self.game is None:
+            self.game = LivingRoom()
+            self.game.show()
+            self.close()
+        else:
+            self.game.close()
+            self.game = None
+
+class Leaderboard(StartMenu):
+
+    def __init__(self):
+        super().__init__()
+        self.title = 'Leaderboard'
+
+        self.setLeaders()
+
+    def setButtons(self):
+
+        self.leaderButton = QPushButton('Back to Menu', self)
+        self.leaderButton.setGeometry((self.width - self.button_width)/2,390,self.button_width,self.button_height)
+        self.leaderButton.setStyleSheet(f"color: black; background-color: white; border-width: 2px; border-color: black; font: bold {self.f_size}px;")
+        self.leaderButton.clicked.connect(self.toMenu)
+
+    def setLeaders(self):
+
+        leaders = pd.read_csv("../data/leaders.csv")
+        for i in range(3):
+            name = leaders.iloc[i,0]
+            score = leaders.iloc[i,1]
+            self.leader = QLabel(f"{name}\t\t\t{score}", self)
+            self.leader.setGeometry((self.width - self.button_width)/2,180+50*i,self.button_width,50)
+            self.leader.setStyleSheet("color: white; background-color: black; font: 24px; qproperty-alignment: 'AlignHCenter | AlignVCenter';")
+
+class PaintWidget(QWidget):
+    def paintEvent(self, event):
+        qp = QPainter(self)
+        
+        qp.setPen(QPen(Qt.black,5,Qt.SolidLine))
+        qp.setBrush(QBrush(Qt.black,Qt.SolidPattern))
+        qp.drawRect(0,0,480,850)
+

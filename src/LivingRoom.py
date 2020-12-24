@@ -13,8 +13,6 @@ from Balcony import Balcony
 from Kitchen import Kitchen
 from Hallway import Hallway
 from Library import Library
-import sounddevice as sd
-import soundfile as sf
 
 from IngmanSpeaking import IngmanSpeaking
 
@@ -86,14 +84,14 @@ class LivingRoom(Room):
         self.lampButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
         self.lampButton.setGeometry(305,380,bw,bh)
         self.lampButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.lampButton.clicked.connect(self.toUnused)
+        self.lampButton.clicked.connect(self.toLightsOff)
 
         # Light Switch
         self.lightButton = QPushButton("", self)
         self.lightButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
         self.lightButton.setGeometry(745,340,bw,bh)
         self.lightButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.lightButton.clicked.connect(self.toLight)
+        self.lightButton.clicked.connect(self.toLightsOff)
 
     def setEasterEggButtons(self):
         # Setting up easter egg buttons
@@ -120,6 +118,7 @@ class LivingRoom(Room):
         else:
             self.hw.close()
             self.hw = None
+        self.close()
 
     def toLibrary(self, checked):
         config.progress.rooms_visited += 1
@@ -149,7 +148,4 @@ class LivingRoom(Room):
             config.progress.easter_egg_count += 1
             config.progress.ufo_clicked = True
             playAudio("cat_meow")
-
-    def toLight(self, checked):
-        pass
 

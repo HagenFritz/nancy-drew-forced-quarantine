@@ -1,17 +1,20 @@
 import pandas as pd
 import numpy as np
 
+from Screen import FatalError
+
 class Progress():
     def __init__(self):
         # Medals
-        self.easter_egg_count = 0
-        self.nugget_clicks = 0
-        self.star_wars_count = 0
-        self.pan_orchestra = 0
+        self.easter_egg_count = 0 # keeps track of easter eggs found
+        self.nugget_clicks = 0 # keeps track of the number of times the person clicks the nugget
+        self.star_wars_count = 0 # keeps track of the number of star wars items clicked
+        self.pan_orchestra = 0 # keeps track of the number of pans clicked
+        self.lights_switched = 0 # keeps track of the number of times the user turns the lights off
 
         # Easter Eggs
         self.ufo_clicked = False
-        self.duct_clicked = False
+        self.duct_clicked = False # Could be name associated with Eugene Tombs
         self.xwing_clicked = False
         self.ywing_clicked = False
         self.tie_clicked = False
@@ -23,10 +26,14 @@ class Progress():
         self.data.replace(1,True)
 
         # Game Flags
-        self.message = False
-        self.message_read = False
+        self.message = True
+        self.message_read = True
         self.service_status = "None"
         self.made_coffee = [False,False] # [isMade, isGood]
+
+        # Fatal Error 
+        self.fe  = None
+        self.jumped_off_balcony = False
 
         # Story counters
         self.message_no = 1
@@ -57,3 +64,17 @@ class Progress():
         Coffe is good set to flag
         """
         self.made_coffee[1] = flag
+
+    # Fatal Error
+    # -----------
+    def fatalError(self):
+        """
+        Tatal Error message when the user messes up in the game. Messages to send are based on progress and various flags.
+        """
+        if self.fe is None:
+            self.fe = FatalError()
+            self.fe.show()
+        else:
+            self.fe.close()
+            self.fe = None
+

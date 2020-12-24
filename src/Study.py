@@ -32,6 +32,28 @@ class Study(Room):
         bw = 25
         bh = 25
 
+        if config.game_time.isDay() == False:
+            # RPi
+            self.rpiButton = QPushButton("", self)
+            self.rpiButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+            self.rpiButton.setGeometry(275,435,bw,bh)
+            self.rpiButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+            self.rpiButton.clicked.connect(self.toRPiPopup)
+
+            # Coffee Mug
+            self.mugButton = QPushButton("", self)
+            self.mugButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+            self.mugButton.setGeometry(170,460,bw,bh)
+            self.mugButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+            self.mugButton.clicked.connect(self.toMugPopup)
+        else:
+            # Inhaler
+            self.inhalerButton = QPushButton("", self)
+            self.inhalerButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+            self.inhalerButton.setGeometry(250,565,bw,bh)
+            self.inhalerButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+            self.inhalerButton.clicked.connect(self.toInhalerPopup)
+
         # Laptop
         self.laptop_window = None
         self.laptopButton = QPushButton("", self)
@@ -39,21 +61,6 @@ class Study(Room):
         self.laptopButton.setGeometry(145,540,bw,bh)
         self.laptopButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
         self.laptopButton.clicked.connect(self.toLaptop)
-
-        # Objects
-        # RPi
-        self.rpiButton = QPushButton("", self)
-        self.rpiButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.rpiButton.setGeometry(275,435,bw,bh)
-        self.rpiButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.rpiButton.clicked.connect(self.toRPiPopup)
-
-        # Coffee Mug
-        self.mugButton = QPushButton("", self)
-        self.mugButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-        self.mugButton.setGeometry(170,460,bw,bh)
-        self.mugButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
-        self.mugButton.clicked.connect(self.toMugPopup)
 
         # Nugget
         self.nuggetButton = QPushButton("", self)
@@ -130,6 +137,9 @@ class Study(Room):
 
     def toRPiPopup(self, checked):
         self.grabObject("rpi")
+
+    def toInhalerPopup(self,checked):
+        self.grabObject("inhaler")
 
     def toFrisbee(self, checked):
         if config.progress.frisbee_clicked == False:

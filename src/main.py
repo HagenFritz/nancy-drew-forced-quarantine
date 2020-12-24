@@ -1,5 +1,6 @@
 # importing libraries 
 import sys 
+sys.path.append("./menu/")
 from random import randint
 
 from PyQt5.QtWidgets import * 

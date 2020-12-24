@@ -15,6 +15,7 @@ from Tasks import Tasks
 from Phone import Phone
 from Object import Object
 from Page import Page
+from Screen import Black
 import config
 
 class Room(QWidget):
@@ -40,6 +41,7 @@ class Room(QWidget):
 
         self.obj_window = None
         self.page_window = None
+        self.black_window = None
 
         self.initUI()
 
@@ -140,6 +142,18 @@ class Room(QWidget):
 
     def toNoSleep(self, checked):
         self.playAudio("no_sleep",nancy=True)
+
+    def toLightsOff(self,checked):
+        if config.game_time.isDay() == False: # only works if at night
+            config.progress.lights_switched += 1
+            if self.black_window is None:
+                self.black_window = Black()
+                self.black_window.show()
+            else:
+                self.black_window.close()
+                self.black_window = None
+        else:
+            self.playAudio("hmm")
 
     def grabObject(self, item,):
         if "bag" in config.nancy.inventory or item == "bag":

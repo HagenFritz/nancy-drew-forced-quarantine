@@ -9,6 +9,7 @@ import soundfile as sf
 
 from Interaction import CharacterInteraction
 from Conversations import Conversations
+from Screen import FatalError
 import config
 
 class IngmanSpeaking(CharacterInteraction):
@@ -19,20 +20,22 @@ class IngmanSpeaking(CharacterInteraction):
         self.f = self.speakToIngman
         self.nid = 1
 
-        # Meeting Ingman
+        self.fatal_error = False
+
+        # Meeting Ingman - fc
         if config.progress.data.loc["met_ingman", "complete"] == False:
             # setting current progress step to True and unlocking next task
             config.progress.data.loc["met_ingman", "complete"] = True
             config.progress.data.loc["apt_explored", "visible"] = True
 
             self.c = self.conversation.firstConversation(self)
-        # Explored Apt
+        # Explored Apt - cc
         elif config.progress.data.loc["met_ingman", "complete"] == True and config.progress.rooms_visited >= 7 and config.progress.data.loc["apt_explored", "complete"] == False:
             config.progress.data.loc["apt_explored", "complete"] = True
             config.progress.data.loc["make_coffee", "visible"] = True
 
             self.c = self.conversation.coffeeConversation(self)
-        # Made Coffee
+        # Made Coffee - gc or bc
         elif config.progress.data.loc["apt_explored", "complete"] == True and config.progress.isCoffeeMade() and config.progress.data.loc["make_coffee","complete"] == False:
             if config.progress.isCoffeeGood() == False:
                 self.c = self.conversation.badCoffee(self)
@@ -49,16 +52,24 @@ class IngmanSpeaking(CharacterInteraction):
                 config.progress.coffeeIsGood(False)
 
                 self.c = self.conversation.goodCoffee(self)
+        elif config.progress.data.loc["first_sleep","complete"] == True and config.progress.data.loc["first_message","complete"] == False and config.progress.data.loc["first_message","visible"] == False:
+            config.progress.data.loc["first_message","visible"] = True
+
+            self.c = self.conversation.personInTheNight(self)
         elif config.progress.message == True and config.progress.message_no == 1 and config.progress.message_read == True:
-            self.c = self.conversation.noUpdates(self)
+            self.c = self.conversation.firstMessageBeta(self)
+            self.fatal_error = True
         else:
             self.c = self.conversation.noUpdates(self)
 
-        self.f(self.nid)
+        try:
+            self.f(self.nid)
+        except AttributeError:
+            print("No conversation selected")
 
     def speakToIngman(self, node_id_number):
         """
-        Audio code "fc"
+        Creates the speaking dialogue with Ingman
         """
         # printing out Ingman answer
         self.answer = QLabel(self.c.get_node(self.nid).data["answer"], self)
@@ -70,6 +81,9 @@ class IngmanSpeaking(CharacterInteraction):
 
         # exiting if no more choices and setting the progress forward
         if self.c.children(self.nid) == []:
+            if self.fatal_error == True:
+                config.progress.fatalError()
+
             self.close()
             
         # printing out your possible responses

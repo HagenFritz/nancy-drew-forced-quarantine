@@ -6,6 +6,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import * 
 
 from Room import Room
+import LivingRoom
 from Bedroom import Bedroom
 from Bathroom import Bathroom 
 import config
@@ -23,6 +24,7 @@ class Hallway(Room):
 
     def setRoomButtons(self):
         # Setting up buttons and other room windows
+        self.lr = None
         self.livingButton = QPushButton("Living Room", self)
         self.livingButton.setGeometry(self.width/2-self.button_width/2,self.image_height-self.button_height,self.button_width,self.button_height)
         self.livingButton.clicked.connect(self.toLiving)
@@ -47,6 +49,12 @@ class Hallway(Room):
 
     def toLiving(self, checked):
         config.progress.rooms_visited += 1
+        if self.lr is None:
+            self.lr = LivingRoom.LivingRoom()
+            self.lr.show()
+        else:
+            self.lr.close()  # Close window.
+            self.lr = None  # Discard reference.
         self.close()
 
     def toBedroom(self, checked):
@@ -57,6 +65,8 @@ class Hallway(Room):
         else:
             self.br.close()  # Close window.
             self.br = None  # Discard reference.
+
+        self.close()
 
     def toBathroom(self, checked):
         config.progress.rooms_visited += 1
