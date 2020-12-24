@@ -11,28 +11,33 @@ class Progress():
         self.star_wars_count = 0 # keeps track of the number of star wars items clicked
         self.pan_orchestra = 0 # keeps track of the number of pans clicked
         self.lights_switched = 0 # keeps track of the number of times the user turns the lights off
+        self.duct_checked = 0 # Could be name associated with Eugene Tombs
 
         # Easter Eggs
         self.ufo_clicked = False
-        self.duct_clicked = False # Could be name associated with Eugene Tombs
         self.xwing_clicked = False
         self.ywing_clicked = False
         self.tie_clicked = False
         self.mixer_clicked = False
 
-        # Story progress
+        # Story progress/tasks
         self.data = pd.read_csv("../data/progress.csv",index_col="name")
         self.data.replace(0,False)
         self.data.replace(1,True)
+
+        # Notes
+        self.notes = []
 
         # Game Flags
         self.message = True
         self.message_read = True
         self.service_status = "None"
         self.made_coffee = [False,False] # [isMade, isGood]
+        self.laundry_set = False
+        self.laundry_going = False
 
         # Fatal Error 
-        self.fe  = None
+        self.fe = None
         self.jumped_off_balcony = False
 
         # Story counters
@@ -69,7 +74,7 @@ class Progress():
     # -----------
     def fatalError(self):
         """
-        Tatal Error message when the user messes up in the game. Messages to send are based on progress and various flags.
+        Fatal Error message when the user messes up in the game. Messages to send are based on progress and various flags.
         """
         if self.fe is None:
             self.fe = FatalError()

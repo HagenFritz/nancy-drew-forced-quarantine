@@ -11,6 +11,3 @@ ingman = Ingman()
 game_time = Time()
 # create progress check
 progress = Progress()
-
-# need to allow the user to update this
-save_file = "test"
