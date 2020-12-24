@@ -16,11 +16,11 @@ if __name__ == '__main__':
     App = QApplication(sys.argv) 
       
     # create the instance of our Window 
-    #menu = StartMenu()
-    #menu.show()
+    menu = StartMenu()
+    menu.show()
      
-    game = LivingRoom()
-    game.show()
+    #game = LivingRoom()
+    #game.show()
 
     # start the app 
     sys.exit(App.exec()) 

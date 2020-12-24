@@ -107,20 +107,7 @@ class Entry(Room):
 
     def toFrontDoor(self, checked):
         if config.progress.data.loc["front_unlocked", "complete"] == False:
-            filename = "../audio/locked.wav"
-            data, fs = sf.read(filename, dtype='float32')  
-            sd.play(data, fs)
-            status = sd.wait()
+            self.playAudio("locked")
         else:
             # need to add something here later
             pass
-
-    def toDuct(self, checked):
-        if config.progress.duct_clicked == False:
-            config.progress.easter_egg_count += 1
-            config.progress.duct_clicked = True
-            # audio
-            filename = "../audio/cat_meow.wav"
-            data, fs = sf.read(filename, dtype='float32')  
-            sd.play(data, fs)
-            status = sd.wait()

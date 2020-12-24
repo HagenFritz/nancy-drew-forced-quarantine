@@ -1,10 +1,11 @@
 import sys
 sys.path.append("./toolbar/")
 sys.path.append("./objects/")
+import json
 
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QLabel, QPushButton
-from PyQt5.QtGui import QPainter, QColor, QPen, QIcon, QBrush, QPixmap
-from PyQt5.QtCore import Qt
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5.QtCore import *
 import sounddevice as sd
 import soundfile as sf
 from random import randint
@@ -94,6 +95,15 @@ class Room(QWidget):
         self.phoneButton.setGeometry(5+spacing*3,self.image_height,self.button_width,self.button_height)
         self.phoneButton.clicked.connect(self.toPhone)
 
+        self.save_window = None
+        self.saveButton = QPushButton("Save", self)
+        self.saveButton.setGeometry(self.width-5-self.button_width-spacing*1,self.image_height,self.button_width,self.button_height)
+        self.saveButton.clicked.connect(self.toSave)
+
+        self.exitButton = QPushButton("Exit", self)
+        self.exitButton.setGeometry(self.width-5-self.button_width-spacing*0,self.image_height,self.button_width,self.button_height)
+        self.exitButton.clicked.connect(self.toExit)
+
     def toInventory(self, checked):
         if self.inventory_window is None:
             self.inventory_window = Inventory()
@@ -126,6 +136,40 @@ class Room(QWidget):
             self.phone_window.close()
             self.phone_window = None
 
+    def toSave(self, checked):
+        """
+        Saves current data
+        """
+        fname = self.getText()
+        # progress as csv
+        save_dict = {"progress":config.progress.data.to_dict(),"inventory":config.nancy.inventory,"notes":config.progress.notes}
+        try:
+            with open(f"../data/save_files/{fname}.json", "w") as f:
+                data = json.dump(save_dict, f)
+            
+            save_status_text = "Save Successful!"
+        except Exception as inst:
+            print("Error -", inst)
+
+            save_status_text = "Save Unsuccessful"
+
+        saveStatus = QMessageBox.information(self, 'Save Game', save_status_text, QMessageBox.Ok, QMessageBox.Ok)
+
+    def toExit(self, checked):
+        """
+        Exits game
+        """
+        checkExit = QMessageBox.question(self, 'Exit Game', "Are you sure?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+        if checkExit == QMessageBox.Yes:
+            sys.exit(0)
+        else:
+            pass
+
+    def getText(self):
+        text, okPressed = QInputDialog.getText(self, "Save Game","File Name:", QLineEdit.Normal, "")
+        if okPressed and text != '':
+            return text
+
     def toNugget(self, checked):
         config.progress.nugget_clicks += 1
         num = randint(0,1)
@@ -142,6 +186,10 @@ class Room(QWidget):
 
     def toNoSleep(self, checked):
         self.playAudio("no_sleep",nancy=True)
+
+    def toDuct(self, checked):
+        config.progress.duct_checked += 1
+        self.playAudio("cat_meow")
 
     def toLightsOff(self,checked):
         if config.game_time.isDay() == False: # only works if at night
