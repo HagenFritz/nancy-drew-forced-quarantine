@@ -1,6 +1,7 @@
 ﻿order,name,complete,visible,description
 1,met_ingman,1,1,Meet the stranger in the living room
 2,apt_explored,1,1,Explore all main rooms of the apartment
-3,make_coffee,0,1,Get Dr. Ingman some coffee
-4,first_sleep,0,0,Get some sleep
+3,make_coffee,1,1,Get Dr. Ingman some coffee
+4,first_sleep,1,1,Get some sleep
+5,first_message,1,1,Investigate the kitchen
 10,front_unlocked,0,0,Unlock the front door
