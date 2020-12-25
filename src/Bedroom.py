@@ -64,14 +64,14 @@ class Bedroom(Room):
             self.alarm_window = None
             self.alarmButton = QPushButton("", self)
             self.alarmButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-            self.alarmButton.setGeometry(502,460,self.bw,self.bh)
+            self.alarmButton.setGeometry(475,535,self.bw,self.bh)
             self.alarmButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
             self.alarmButton.clicked.connect(self.toAlarm) 
 
-            # Bedside books
+            # Candle
             self.booksButton = QPushButton("", self)
             self.booksButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
-            self.booksButton.setGeometry(210,430,self.bw,self.bh)
+            self.booksButton.setGeometry(105,525,self.bw,self.bh)
             self.booksButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
             self.booksButton.clicked.connect(self.toBooks)
 
@@ -89,7 +89,7 @@ class Bedroom(Room):
         self.close()
 
     def toBooks(self, checked):
-        self.playAudio("hmm")
+        self.playAudio("hmm",nancy=True)
 
     def toAlarm(self, checked):
         if config.progress.data.loc["met_ingman","complete"] == True:
@@ -102,4 +102,4 @@ class Bedroom(Room):
 
             self.close()
         else:
-            self.playAudio(cant_do)
+            self.playAudio("cant_do",nancy=True)

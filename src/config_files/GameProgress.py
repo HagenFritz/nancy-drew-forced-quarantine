@@ -24,6 +24,7 @@ class Progress():
         self.data = pd.read_csv("../data/progress.csv",index_col="name")
         self.data.replace(0,False)
         self.data.replace(1,True)
+        self.setpoint = 68
 
         # Notes
         self.notes = []

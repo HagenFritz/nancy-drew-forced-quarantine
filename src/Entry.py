@@ -1,6 +1,7 @@
 # importing libraries 
 import sys 
 sys.path.append("./interactions/")
+sys.path.append("./objects/")
 
 from PyQt5.QtWidgets import * 
 from PyQt5.QtGui import * 
@@ -11,6 +12,7 @@ import soundfile as sf
 from Room import Room
 from Closet import Closet
 from Laundry import Laundry
+from Thermostat import Thermostat
 import config
 
 class Entry(Room):
@@ -103,7 +105,12 @@ class Entry(Room):
         self.close()
 
     def toThermostat(self, checked):
-        pass
+        if self.thermostat_window is None:
+            self.thermostat_window = Thermostat()
+            self.thermostat_window.show()
+        else:
+            self.thermostat_window.close()
+            self.thermostat_window = None
 
     def toFrontDoor(self, checked):
         if config.progress.data.loc["front_unlocked", "complete"] == False:

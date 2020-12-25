@@ -2,7 +2,7 @@
 
 class Time():
 	def __init__(self):
-		self.game_time = "night"
+		self.game_time = "day"
 
 	def setTime(self, time):
 		self.game_time = time

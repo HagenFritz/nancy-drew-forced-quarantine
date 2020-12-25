@@ -53,7 +53,7 @@ class Alarm(QWidget):
         # Morning
         self.morningButton = QPushButton("", self)
         self.morningButton.setGeometry(160,112,35,20)
-        self.morningButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.morningButton.setStyleSheet("background-color: white;")
         self.morningButton.clicked.connect(self.toMorning)
 
         # Evening

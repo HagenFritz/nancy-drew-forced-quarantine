@@ -18,7 +18,6 @@ class Vent(Room):
 
         self.setRoomButtons()
         self.setInteractionButtons()
-        self.setEasterEggButtons()
 
     def setRoomButtons(self):
     	# Setting up buttons and other room windows
@@ -27,10 +26,26 @@ class Vent(Room):
         self.balconyButton.clicked.connect(self.toBalcony)
 
     def setInteractionButtons(self):
-        pass
+        # door
+        self.doorButton = QPushButton("", self)
+        self.doorButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        if config.game_time.isDay():
+            self.doorButton.setGeometry(502,580,self.bw,self.bh)
+        else:
+            self.doorButton.setGeometry(520,580,self.bw,self.bh)
+        self.doorButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.doorButton.clicked.connect(self.toLocked) 
 
-    def setEasterEggButtons(self):
-        pass
+        # duct
+        self.ductButton = QPushButton("", self)
+        self.ductButton.setIcon(QIcon("../images/icons/magnifying_glass.png"))
+        if config.game_time.isDay():
+            self.ductButton.setGeometry(640,55,self.bw,self.bh)
+        else:
+            self.ductButton.setGeometry(690,60,self.bw,self.bh)
+        self.ductButton.setStyleSheet("background-color: rgba(0, 255, 255, 0);")
+        self.ductButton.clicked.connect(self.toDuct) 
 
     def toBalcony(self, checked):
         self.close()
+

@@ -196,7 +196,7 @@ class Kitchen(Room):
             self.playAudio("grinding")
             config.nancy.inventory.append("grounds")
         else:
-            self.playAudio("missing_something")
+            self.playAudio("missing_something",nancy=True)
 
     def toMessage(self, checked):
         if self.message_window is None and config.progress.message == True:
