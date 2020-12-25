@@ -68,12 +68,6 @@ class Cutting(Room):
 
         self.close()
 
-    def toMixer(self, checked):
-        if config.progress.mixer_clicked == False:
-            config.progress.easter_egg_count += 1
-            config.progress.mixer_clicked = True
-            self.playAudio("mixer")
-
     def makeCoffee(self):
         # Timer to update the page
         self.timer = QTimer(self)

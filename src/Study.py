@@ -9,6 +9,7 @@ import sounddevice as sd
 import soundfile as sf
 
 from Room import Room
+from Laptop import Laptop
 import config
 
 class Study(Room):
@@ -125,8 +126,7 @@ class Study(Room):
 
     def toLaptop(self, checked):
         if self.laptop_window is None:
-            pass
-            #self.laptop_window = Laptop()
+            self.laptop_window = Laptop()
             self.laptop_window.show()
         else:
             self.laptop_window.close()

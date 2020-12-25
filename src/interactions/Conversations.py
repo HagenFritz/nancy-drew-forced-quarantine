@@ -118,40 +118,40 @@ class Conversations():
         # root
         c.create_node("Waltz Ingman",1,data={"loc":"u","answer":"Feeling better?","audio":"pn_1"})
         # Feeling better?
-        c.create_node("Yes, thank you.",11,parent=1,data={"loc":"u","answer":"That is great to hear. Did you happen to think of anything while you were falling asleep?","audio":"pn_11"})
-        c.create_node("A little better. Still wondering why we are here.",12,parent=1,data={"loc":"d","answer":"Yeah, same here. I tried looking around a bit more, but could hardly walk or focus.","audio":"pn_12"})
+        c.create_node("Yes, thank you.",11,parent=1,data={"loc":"u","answer":"That is great to hear. Did you happen to think of anything while you were falling asleep?","audio":"pn_11"})#
+        c.create_node("A little better. Still wondering why we are here.",12,parent=1,data={"loc":"d","answer":"Yeah, same here. I tried looking around a bit more, but could hardly walk or focus.","audio":"pn_12"})#
         # That is great to hear. Did you happen to think of anything while you were falling asleep?
-        c.create_node("No, I just passed out",111,parent=11,data={"loc":"u","answer":"Well...I didn't find anything around here, but I did hear something this morning.","audio":"pn_111"})
+        c.create_node("No, I just passed out",111,parent=11,data={"loc":"u","answer":"Well...I didn't find anything around here, but I did hear something this morning.","audio":"pn_111"})#
         # Well...I didn't find anything around here, but I did hear something this morning.
-        c.create_node("What did you hear?",1111,parent=111,data={"loc":"u","answer":"Well I ended up falling asleep, but I could have sworn I heard something run into the barstool.","audio":"pn_1111"})
+        c.create_node("What did you hear?",1111,parent=111,data={"loc":"u","answer":"Well I ended up falling asleep, but I could have sworn I heard something run into the barstool in the kitchen.","audio":"pn_1111"})#
         # Well I ended up falling asleep, but I could have sworn I heard something run into the barstool
-        c.create_node("Something or someone?",11111,parent=1111,data={"loc":"u","answer":"Not sure. It could have also just been a dream.","audio":"pn_11111"})
-        c.create_node("Did you check it out?",11112,parent=1111,data={"loc":"d","answer":"No, I ended up falling back asleep after I heard the noise and just got up as you walked in.","audio":"pn_11112"})
+        c.create_node("Something or someone?",11111,parent=1111,data={"loc":"u","answer":"Not sure. It could have also just been a dream.","audio":"pn_11111"})#
+        c.create_node("Did you check it out?",11112,parent=1111,data={"loc":"d","answer":"No, I ended up falling back asleep after I heard the noise and just got up as you walked in.","audio":"pn_11112"})#
         # Not sure. It could have also just been a dream.
-        c.create_node("Hmm I will go check it out.",111111,parent=11111,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped the kitchen.","audio":"pn_111111"})
+        c.create_node("Hmm I will go check it out.",111111,parent=11111,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped.","audio":"pn_111111"}) #
         # No, I ended up falling back asleep after I heard the noise and just got up as you walked in.
-        c.create_node("Okay, I think I will go check it out.",111121,parent=11112,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped the kitchen.","audio":"pn_111111"})
+        c.create_node("Okay, I think I will go check it out.",111121,parent=11112,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped.","audio":"pn_111111"})# 
         # Yeah, same here. I tried looking around a bit more, but could hardly walk or focus.
-        c.create_node("Oh, that's fine.",121,parent=12,data={"loc":"u","answer":"I DID hear something last night though.","audio":"pn_121"})
-        c.create_node("Are you ever going to leave that couch?",122,parent=12,data={"loc":"u","answer":"Well it is quite comfy. However, it seems I don't need to leave it in order to hear people rummaging around in the kitchen.","audio":"pn_122"})
+        c.create_node("Oh, that's fine.",121,parent=12,data={"loc":"u","answer":"I DID hear something last night though.","audio":"pn_121"}) #
+        c.create_node("Are you ever going to leave that couch?",122,parent=12,data={"loc":"u","answer":"Well it is quite comfy. However, it seems I don't need to leave it in order to hear people rummaging around in the kitchen.","audio":"pn_122"})#
         # I DID hear something last night though.
-        c.create_node("What?",1211,parent=121,data={"loc":"u","answer":"Well I ended up falling asleep, but I could have sworn I heard something run into the barstool.","audio":"pn_1111"})
+        c.create_node("What?",1211,parent=121,data={"loc":"u","answer":"Well I ended up falling asleep, but I could have sworn I heard something run into the barstool in the kitchen.","audio":"pn_1111"})#
         # Well I ended up falling asleep, but I could have sworn I heard something run into the barstool.
-        c.create_node("Something or someone?",12111,parent=1211,data={"loc":"u","answer":"Not sure. It could have also just been a dream.","audio":"pn_11111"})
-        c.create_node("Did you check it out?",12112,parent=1211,data={"loc":"d","answer":"No, I ended up falling back asleep after I heard the noise and just got up as you walked in.","audio":"pn_11112"})
+        c.create_node("Something or someone?",12111,parent=1211,data={"loc":"u","answer":"Not sure. It could have also just been a dream.","audio":"pn_11111"})#
+        c.create_node("Did you check it out?",12112,parent=1211,data={"loc":"d","answer":"No, I ended up falling back asleep after I heard the noise and just got up as you walked in.","audio":"pn_11112"})#
         # Not sure. It could have also just been a dream.
-        c.create_node("Hmm I will go check it out.",121111,parent=12111,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped the kitchen.","audio":"pn_111111"})
+        c.create_node("Hmm I will go check it out.",121111,parent=12111,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped.","audio":"pn_111111"})# 
         # No, I ended up falling back asleep after I heard the noise and just got up as you walked in.
-        c.create_node("Okay, I think I will go check it out.",121121,parent=12112,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped the kitchen.","audio":"pn_111111"})
+        c.create_node("Okay, I think I will go check it out.",121121,parent=12112,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped.","audio":"pn_111111"})#
         # Well it is quite comfy. However, it seems I don't need to leave it in order to hear people rummaging around in the kitchen.
-        c.create_node("What?",1221,parent=122,data={"loc":"u","answer":"Well I ended up falling asleep, but I could have sworn I heard something run into the barstool.","audio":"pn_1111"})
+        c.create_node("What?",1221,parent=122,data={"loc":"u","answer":"Well I ended up falling asleep, but I could have sworn I heard something run into the barstool in the kitchen.","audio":"pn_1111"})#
         # Well I ended up falling asleep, but I could have sworn I heard something run into the barstool
-        c.create_node("Something or someone?",12211,parent=1221,data={"loc":"u","answer":"Not sure. It could have also just been a dream.","audio":"pn_11111"})
-        c.create_node("Did you check it out?",12211,parent=1221,data={"loc":"d","answer":"No, I ended up falling back asleep after I heard the noise and just got up as you walked in.","audio":"pn_11112"})
+        c.create_node("Something or someone?",12211,parent=1221,data={"loc":"u","answer":"Not sure. It could have also just been a dream.","audio":"pn_11111"})#
+        c.create_node("Did you check it out?",12211,parent=1221,data={"loc":"d","answer":"No, I ended up falling back asleep after I heard the noise and just got up as you walked in.","audio":"pn_11112"})#
         # Not sure. It could have also just been a dream.
-        c.create_node("Hmm I will go check it out.",122111,parent=12211,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped the kitchen.","audio":"pn_111111"})
+        c.create_node("Hmm I will go check it out.",122111,parent=12211,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped.","audio":"pn_111111"})#
         # No, I ended up falling back asleep after I heard the noise and just got up as you walked in.
-        c.create_node("Okay, I think I will go check it out.",122112,parent=12211,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped the kitchen.","audio":"pn_111111"})
+        c.create_node("Okay, I think I will go check it out.",122112,parent=12211,data={"loc":"u","answer":"Okay, be careful. God knows the kitchen has been booby-trapped.","audio":"pn_111111"})#
         
         return 
 
